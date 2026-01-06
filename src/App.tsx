@@ -15,12 +15,16 @@ const queryClient = new QueryClient();
 
 const AppContent = () => {
   useEffect(() => {
-    // Analytics ve AdMob'u başlat
-    initAnalytics();
-    initAdMob();
+    // Analytics ve AdMob'u başlat (async)
+    const initialize = async () => {
+      await initAnalytics();
+      initAdMob();
+      
+      // App açılışını track et
+      trackAppOpen();
+    };
     
-    // App açılışını track et
-    trackAppOpen();
+    initialize();
   }, []);
 
   return (
