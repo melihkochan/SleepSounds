@@ -71,7 +71,7 @@
 7. **Category:** Health & Fitness veya Lifestyle
 8. **Contact details:**
    - Email: melihkochan.com
-   - Website: https://melihkochan.com
+   - Website: https://sleep-sounds.vercel.app/
 
 ### 4. Content Rating (İçerik Derecelendirme)
 
@@ -88,11 +88,10 @@
 
 **Gerekli!** Privacy policy URL'si eklemeniz gerekiyor.
 
-**Seçenekler:**
-1. Kendi sitenizde oluşturun: `https://melihkochan.com/privacy-policy`
-2. Ücretsiz servisler:
-   - [Privacy Policy Generator](https://www.privacypolicygenerator.info/)
-   - [FreePrivacyPolicy](https://www.freeprivacypolicy.com/)
+**Privacy Policy URL:**
+- `https://sleep-sounds.vercel.app/privacy-policy`
+
+**Not:** Privacy Policy sayfası uygulamaya eklendi. Vercel'e deploy ettikten sonra bu URL çalışacak.
 
 **Privacy Policy'de olması gerekenler:**
 - Hangi veriler toplanıyor (Analytics)
