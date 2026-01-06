@@ -9,7 +9,7 @@ import SleepMode from "@/components/SleepMode";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import useAudioManager from "@/hooks/useAudioManager";
-import { sounds } from "@/data/sounds";
+import { sounds, type SoundData } from "@/data/sounds";
 import { useToast } from "@/hooks/use-toast";
 
 interface ActiveSound {
@@ -94,7 +94,7 @@ const Index = () => {
         return newSounds;
       } else {
         // Add sound and play it immediately
-        const sound = sounds.find((s) => s.id === id);
+        const sound = sounds.find((s: SoundData) => s.id === id);
         if (sound) {
           playSound(id, sound.audioUrl, 50);
           setIsPlaying(true);
@@ -242,7 +242,7 @@ const Index = () => {
 
   const getActiveSoundsWithDetails = () => {
     return activeSounds.map((activeSound) => ({
-      sound: sounds.find((s) => s.id === activeSound.id)!,
+      sound: sounds.find((s: SoundData) => s.id === activeSound.id)!,
       volume: activeSound.volume,
     }));
   };
@@ -322,7 +322,7 @@ const Index = () => {
           {/* Main Content - Sound Grid */}
           <div className="flex-1">
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3 lg:gap-4 max-w-4xl mx-auto">
-              {sounds.map((sound, index) => (
+              {sounds.map((sound: SoundData, index: number) => (
                 <SoundCard
                   key={sound.id}
                   id={sound.id}
