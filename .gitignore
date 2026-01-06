@@ -13,8 +13,9 @@ dist-ssr
 *.local
 
 # Sounds folder (root) - we use public/Sounds instead
-Sounds/
-logo.png
+# But we DO want to track public/Sounds and public/logo.png
+/Sounds/
+/logo.png
 
 # Editor directories and files
 .vscode/*
