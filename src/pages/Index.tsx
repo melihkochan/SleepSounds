@@ -1,9 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
+import { Moon } from "lucide-react";
 import SoundCard from "@/components/SoundCard";
 import PlayButton from "@/components/PlayButton";
 import TimerButton from "@/components/TimerButton";
 import StarField from "@/components/StarField";
 import ActiveSoundsMixer from "@/components/ActiveSoundsMixer";
+import SleepMode from "@/components/SleepMode";
 import useAudioManager from "@/hooks/useAudioManager";
 import { sounds } from "@/data/sounds";
 import { useToast } from "@/hooks/use-toast";
@@ -20,6 +22,7 @@ const Index = () => {
   const [remainingTime, setRemainingTime] = useState<number | null>(null);
   const [elapsedTime, setElapsedTime] = useState<number>(0); // Geçen süre (saniye)
   const [playStartTime, setPlayStartTime] = useState<number | null>(null); // Oynatma başlangıç zamanı
+  const [showSleepMode, setShowSleepMode] = useState(false);
   const { playSound, stopSound, setVolume, pauseAll, resumeAll, stopAll } = useAudioManager();
   const { toast } = useToast();
 
@@ -78,11 +81,12 @@ const Index = () => {
         // Remove sound - stop it completely
         stopSound(id);
         const newSounds = prev.filter((s) => s.id !== id);
-        // If no sounds left, reset elapsed time
+        // If no sounds left, reset elapsed time and close sleep mode
         if (newSounds.length === 0) {
           setElapsedTime(0);
           setPlayStartTime(null);
           setIsPlaying(false);
+          setShowSleepMode(false);
         }
         return newSounds;
       } else {
@@ -123,6 +127,10 @@ const Index = () => {
       // Pause all sounds (but keep them in the list)
       pauseAll();
       setIsPlaying(false);
+      // If in sleep mode, close it and return to main screen
+      if (showSleepMode) {
+        setShowSleepMode(false);
+      }
     } else {
       // Resume all paused sounds
       resumeAll();
@@ -132,7 +140,7 @@ const Index = () => {
         setPlayStartTime(Date.now() - elapsedTime * 1000);
       }
     }
-  }, [activeSounds.length, isPlaying, pauseAll, resumeAll, toast, playStartTime, elapsedTime]);
+  }, [activeSounds.length, isPlaying, pauseAll, resumeAll, toast, playStartTime, elapsedTime, showSleepMode]);
 
   const handleTimerSelect = useCallback((minutes: number | null) => {
     setSelectedTimer(minutes);
@@ -141,16 +149,38 @@ const Index = () => {
     }
   }, []);
 
+  const handleEnterSleepMode = useCallback(() => {
+    if (activeSounds.length === 0) {
+      toast({
+        title: "Ses Seçin",
+        description: "Uyku moduna geçmek için en az bir ses seçin.",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (!isPlaying) {
+      // Start playing if not already playing
+      resumeAll();
+      setIsPlaying(true);
+      if (playStartTime === null) {
+        setPlayStartTime(Date.now());
+        setElapsedTime(0);
+      }
+    }
+    setShowSleepMode(true);
+  }, [activeSounds.length, isPlaying, resumeAll, playStartTime, toast]);
+
   const handleRemoveSound = useCallback((id: string) => {
     // Stop sound completely when removed
     stopSound(id);
     setActiveSounds((prev) => {
       const newSounds = prev.filter((s) => s.id !== id);
-      // If no sounds left, reset everything
+      // If no sounds left, reset everything and close sleep mode
       if (newSounds.length === 0) {
         setIsPlaying(false);
         setElapsedTime(0);
         setPlayStartTime(null);
+        setShowSleepMode(false);
       }
       return newSounds;
     });
@@ -176,6 +206,17 @@ const Index = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
+      {/* Sleep Mode Overlay */}
+      {showSleepMode && activeSounds.length > 0 && (
+        <SleepMode
+          activeSounds={getActiveSoundsWithDetails()}
+          remainingTime={remainingTime}
+          elapsedTime={elapsedTime}
+          isPlaying={isPlaying}
+          onPlayToggle={handlePlayToggle}
+          onClose={() => setShowSleepMode(false)}
+        />
+      )}
       <StarField />
 
       {/* Ambient glow */}
@@ -270,27 +311,39 @@ const Index = () => {
       </div>
 
       {/* Bottom Controls - Compact */}
-      <div className="fixed bottom-0 left-0 right-0 z-20">
-        <div className="glass-card mx-4 mb-4 p-2 flex items-center justify-center gap-3">
-          <TimerButton
-            selectedTime={selectedTimer}
-            onTimeSelect={handleTimerSelect}
-            remainingTime={remainingTime}
-          />
+      {!showSleepMode && (
+        <div className="fixed bottom-0 left-0 right-0 z-20">
+          <div className="glass-card mx-4 mb-4 p-2 flex items-center justify-center gap-3">
+            <TimerButton
+              selectedTime={selectedTimer}
+              onTimeSelect={handleTimerSelect}
+              remainingTime={remainingTime}
+            />
 
-          <PlayButton
-            isPlaying={isPlaying}
-            onToggle={handlePlayToggle}
-            disabled={activeSounds.length === 0}
-          />
+            {activeSounds.length > 0 && !showSleepMode ? (
+              <button
+                onClick={handleEnterSleepMode}
+                className="relative w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 bg-gradient-to-br from-primary to-accent hover:scale-105 active:scale-95 shadow-[0_0_20px_hsl(var(--primary)/0.4)] group"
+                title="Uyku Moduna Geç"
+              >
+                <Moon className="w-6 h-6 text-primary-foreground group-hover:scale-110 transition-transform" />
+              </button>
+            ) : (
+              <PlayButton
+                isPlaying={isPlaying}
+                onToggle={handlePlayToggle}
+                disabled={activeSounds.length === 0}
+              />
+            )}
 
-          <div className="text-center min-w-[80px]">
-            <span className="text-xs text-muted-foreground">
-              {activeSounds.length} ses
-            </span>
+            <div className="text-center min-w-[80px]">
+              <span className="text-xs text-muted-foreground">
+                {activeSounds.length} ses
+              </span>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
