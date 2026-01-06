@@ -275,12 +275,7 @@ const Index = () => {
       <div className="relative z-10 px-4 py-6 pb-20 max-w-6xl mx-auto">
         {/* Header */}
         <header className="text-center mb-6 opacity-0 animate-slide-up" style={{ animationFillMode: "forwards" }}>
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <img 
-              src="/logo.png" 
-              alt="Sleep Sounds Logo" 
-              className="w-10 h-10 floating-animation"
-            />
+          <div className="flex items-center justify-center mb-2">
             <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               Sleep Sounds
             </h1>
