@@ -3,11 +3,13 @@ import { useRef, useCallback, useEffect } from "react";
 interface AudioInstance {
   audio: HTMLAudioElement;
   gainNode: GainNode | null;
+  baseVolume: number; // Base volume (0-100) before master volume
 }
 
 const useAudioManager = () => {
   const audioContext = useRef<AudioContext | null>(null);
   const audioInstances = useRef<Map<string, AudioInstance>>(new Map());
+  const masterVolumeRef = useRef<number>(100); // Master volume (0-100)
 
   const initAudioContext = useCallback(() => {
     if (!audioContext.current) {
@@ -21,12 +23,27 @@ const useAudioManager = () => {
   const setVolume = useCallback((id: string, volume: number) => {
     const instance = audioInstances.current.get(id);
     if (instance) {
+      instance.baseVolume = volume;
+      const finalVolume = (volume / 100) * (masterVolumeRef.current / 100);
       if (instance.gainNode) {
-        instance.gainNode.gain.value = volume / 100;
+        instance.gainNode.gain.value = finalVolume;
       } else {
-        instance.audio.volume = volume / 100;
+        instance.audio.volume = finalVolume;
       }
     }
+  }, []);
+
+  const setMasterVolume = useCallback((volume: number) => {
+    masterVolumeRef.current = volume;
+    // Update all existing sounds with new master volume
+    audioInstances.current.forEach((instance) => {
+      const finalVolume = (instance.baseVolume / 100) * (masterVolumeRef.current / 100);
+      if (instance.gainNode) {
+        instance.gainNode.gain.value = finalVolume;
+      } else {
+        instance.audio.volume = finalVolume;
+      }
+    });
   }, []);
 
   const playSound = useCallback((id: string, url: string, volume: number) => {
@@ -61,19 +78,22 @@ const useAudioManager = () => {
       try {
         const source = audioContext.current.createMediaElementSource(audio);
         const gainNode = audioContext.current.createGain();
-        gainNode.gain.value = volume / 100;
+        const finalVolume = (volume / 100) * (masterVolumeRef.current / 100);
+        gainNode.gain.value = finalVolume;
         source.connect(gainNode);
         gainNode.connect(audioContext.current.destination);
 
-        audioInstances.current.set(id, { audio, gainNode });
+        audioInstances.current.set(id, { audio, gainNode, baseVolume: volume });
       } catch (error) {
         console.error(`Audio context hatası (${id}):`, error);
-        audio.volume = volume / 100;
-        audioInstances.current.set(id, { audio, gainNode: null });
+        const finalVolume = (volume / 100) * (masterVolumeRef.current / 100);
+        audio.volume = finalVolume;
+        audioInstances.current.set(id, { audio, gainNode: null, baseVolume: volume });
       }
     } else {
-      audio.volume = volume / 100;
-      audioInstances.current.set(id, { audio, gainNode: null });
+      const finalVolume = (volume / 100) * (masterVolumeRef.current / 100);
+      audio.volume = finalVolume;
+      audioInstances.current.set(id, { audio, gainNode: null, baseVolume: volume });
     }
 
     audio.play().catch((error) => {
@@ -131,6 +151,7 @@ const useAudioManager = () => {
     playSound,
     stopSound,
     setVolume,
+    setMasterVolume,
     stopAll,
     pauseAll,
     resumeAll,

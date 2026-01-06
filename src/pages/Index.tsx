@@ -1,11 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
-import { Moon } from "lucide-react";
+import { Moon, Volume2, Square, Play } from "lucide-react";
 import SoundCard from "@/components/SoundCard";
 import PlayButton from "@/components/PlayButton";
 import TimerButton from "@/components/TimerButton";
 import StarField from "@/components/StarField";
 import ActiveSoundsMixer from "@/components/ActiveSoundsMixer";
 import SleepMode from "@/components/SleepMode";
+import { Slider } from "@/components/ui/slider";
+import { cn } from "@/lib/utils";
 import useAudioManager from "@/hooks/useAudioManager";
 import { sounds } from "@/data/sounds";
 import { useToast } from "@/hooks/use-toast";
@@ -23,7 +25,8 @@ const Index = () => {
   const [elapsedTime, setElapsedTime] = useState<number>(0); // Geçen süre (saniye)
   const [playStartTime, setPlayStartTime] = useState<number | null>(null); // Oynatma başlangıç zamanı
   const [showSleepMode, setShowSleepMode] = useState(false);
-  const { playSound, stopSound, setVolume, pauseAll, resumeAll, stopAll } = useAudioManager();
+  const [masterVolume, setMasterVolume] = useState<number>(100); // Master volume (0-100)
+  const { playSound, stopSound, setVolume, setMasterVolume: setMasterVolumeAudio, pauseAll, resumeAll, stopAll } = useAudioManager();
   const { toast } = useToast();
 
   // Timer logic - start timer when play starts or timer is selected
@@ -186,6 +189,46 @@ const Index = () => {
     });
   }, [stopSound]);
 
+  const handleMasterVolumeChange = useCallback((value: number[]) => {
+    const newVolume = value[0];
+    setMasterVolume(newVolume);
+    setMasterVolumeAudio(newVolume);
+  }, [setMasterVolumeAudio]);
+
+  const handleStopAll = useCallback(() => {
+    if (isPlaying) {
+      // Durdur
+      pauseAll();
+      setIsPlaying(false);
+      if (showSleepMode) {
+        setShowSleepMode(false);
+      }
+      toast({
+        title: "Tüm Sesler Durduruldu",
+        description: "Tüm sesler durduruldu.",
+      });
+    } else {
+      // Başlat
+      if (activeSounds.length === 0) {
+        toast({
+          title: "Ses Seçin",
+          description: "Oynatmak için en az bir ses seçin.",
+          variant: "destructive",
+        });
+        return;
+      }
+      resumeAll();
+      setIsPlaying(true);
+      if (playStartTime === null) {
+        setPlayStartTime(Date.now() - elapsedTime * 1000);
+      }
+      toast({
+        title: "Sesler Başlatıldı",
+        description: "Tüm sesler oynatılıyor.",
+      });
+    }
+  }, [isPlaying, pauseAll, resumeAll, activeSounds.length, showSleepMode, playStartTime, elapsedTime, toast]);
+
   const formatTime = (seconds: number): string => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
@@ -215,6 +258,8 @@ const Index = () => {
           isPlaying={isPlaying}
           onPlayToggle={handlePlayToggle}
           onClose={() => setShowSleepMode(false)}
+          onVolumeChange={handleVolumeChange}
+          onRemoveSound={handleRemoveSound}
         />
       )}
       <StarField />
@@ -289,7 +334,7 @@ const Index = () => {
           </div>
 
           {/* Right Sidebar - Active Sounds Mixer */}
-          <div className="hidden lg:block w-96 flex-shrink-0">
+          <div className="hidden lg:block w-80 flex-shrink-0">
             <div className="sticky top-8">
               <ActiveSoundsMixer
                 activeSounds={getActiveSoundsWithDetails()}
@@ -310,37 +355,102 @@ const Index = () => {
         />
       </div>
 
-      {/* Bottom Controls - Compact */}
+      {/* Bottom Controls - Enhanced */}
       {!showSleepMode && (
         <div className="fixed bottom-0 left-0 right-0 z-20">
-          <div className="glass-card mx-4 mb-4 p-2 flex items-center justify-center gap-3">
-            <TimerButton
-              selectedTime={selectedTimer}
-              onTimeSelect={handleTimerSelect}
-              remainingTime={remainingTime}
-            />
-
-            {activeSounds.length > 0 && !showSleepMode ? (
-              <button
-                onClick={handleEnterSleepMode}
-                className="relative w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 bg-gradient-to-br from-primary to-accent hover:scale-105 active:scale-95 shadow-[0_0_20px_hsl(var(--primary)/0.4)] group"
-                title="Uyku Moduna Geç"
-              >
-                <Moon className="w-6 h-6 text-primary-foreground group-hover:scale-110 transition-transform" />
-              </button>
-            ) : (
-              <PlayButton
-                isPlaying={isPlaying}
-                onToggle={handlePlayToggle}
-                disabled={activeSounds.length === 0}
+          <div className="glass-card mx-4 mb-4 p-3">
+            {/* Main Controls Row */}
+            <div className="flex items-center justify-center gap-3 mb-3">
+              <TimerButton
+                selectedTime={selectedTimer}
+                onTimeSelect={handleTimerSelect}
+                remainingTime={remainingTime}
               />
+
+              {activeSounds.length > 0 && !showSleepMode ? (
+                <>
+                  <button
+                    onClick={handleEnterSleepMode}
+                    className="relative w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 bg-gradient-to-br from-primary to-accent hover:scale-105 active:scale-95 shadow-[0_0_20px_hsl(var(--primary)/0.4)] group"
+                    title="Uyku Moduna Geç"
+                  >
+                    <Moon className="w-6 h-6 text-primary-foreground group-hover:scale-110 transition-transform" />
+                  </button>
+                  <button
+                    onClick={handleStopAll}
+                    className={cn(
+                      "relative w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95 group",
+                      isPlaying
+                        ? "bg-destructive/20 hover:bg-destructive/30 border border-destructive/30 hover:border-destructive/50"
+                        : "bg-primary/20 hover:bg-primary/30 border border-primary/30 hover:border-primary/50"
+                    )}
+                    title={isPlaying ? "Tümünü Durdur" : "Tümünü Başlat"}
+                  >
+                    {isPlaying ? (
+                      <Square className="w-5 h-5 text-destructive group-hover:scale-110 transition-transform" fill="currentColor" />
+                    ) : (
+                      <Play className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" fill="currentColor" />
+                    )}
+                  </button>
+                </>
+              ) : (
+                <PlayButton
+                  isPlaying={isPlaying}
+                  onToggle={handlePlayToggle}
+                  disabled={activeSounds.length === 0}
+                />
+              )}
+
+              <div className="text-center min-w-[80px]">
+                <span className="text-xs text-muted-foreground">
+                  {activeSounds.length} ses
+                </span>
+              </div>
+            </div>
+
+            {/* Master Volume Row */}
+            {activeSounds.length > 0 && (
+              <div className="flex items-center gap-3 px-2">
+                <div className="flex items-center gap-2 min-w-[100px]">
+                  <Volume2 className="w-4 h-4 text-primary" />
+                  <span className="text-xs font-semibold text-foreground">Ana Ses</span>
+                </div>
+                <Slider
+                  value={[masterVolume]}
+                  max={100}
+                  step={1}
+                  onValueChange={handleMasterVolumeChange}
+                  className="flex-1"
+                />
+                <div className="min-w-[45px] text-right">
+                  <span className="text-xs font-bold text-primary tabular-nums">
+                    {masterVolume}%
+                  </span>
+                </div>
+              </div>
             )}
 
-            <div className="text-center min-w-[80px]">
-              <span className="text-xs text-muted-foreground">
-                {activeSounds.length} ses
-              </span>
-            </div>
+            {/* Active Sounds Preview */}
+            {activeSounds.length > 0 && (
+              <div className="flex items-center gap-2 px-2 mt-2 pt-2 border-t border-border/30">
+                <span className="text-xs text-muted-foreground font-medium min-w-[60px]">Aktif:</span>
+                <div className="flex items-center gap-1.5 flex-1 overflow-x-auto scrollbar-hide">
+                  {getActiveSoundsWithDetails().map(({ sound }) => {
+                    const Icon = sound.icon;
+                    return (
+                      <div
+                        key={sound.id}
+                        className="flex items-center gap-1.5 px-2 py-1 rounded-lg flex-shrink-0"
+                        style={{ backgroundColor: `${sound.color}15` }}
+                      >
+                        <Icon className="w-3.5 h-3.5" style={{ color: sound.color }} />
+                        <span className="text-xs font-medium text-foreground">{sound.name}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}

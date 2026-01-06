@@ -90,7 +90,7 @@ const SoundCard = ({
 
         <span
           className={cn(
-            "text-sm font-semibold transition-all duration-300",
+            "text-sm font-semibold transition-all duration-300 text-center",
             isActive 
               ? "text-foreground" 
               : "text-muted-foreground"
