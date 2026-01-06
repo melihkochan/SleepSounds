@@ -20,7 +20,7 @@
   "common": {
     "elapsedTime": "Tempo trascorso",
     "activeSounds": "In riproduzione",
-    "selectSounds": "Clicca sulle carte a sinistra per selezionare i suoni",
+    "selectSounds": "Clicca sulle carte per selezionare i suoni",
     "removeSound": "Rimuovi suono",
     "masterVolume": "Volume principale",
     "active": "Attivo:",

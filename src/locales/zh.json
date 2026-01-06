@@ -20,7 +20,7 @@
   "common": {
     "elapsedTime": "已用时间",
     "activeSounds": "正在播放",
-    "selectSounds": "点击左侧卡片选择声音",
+    "selectSounds": "点击卡片选择声音",
     "removeSound": "移除声音",
     "masterVolume": "主音量",
     "active": "活跃:",

@@ -20,7 +20,7 @@
   "common": {
     "elapsedTime": "Elapsed Time",
     "activeSounds": "Currently Playing",
-    "selectSounds": "Click the cards on the left to select sounds",
+    "selectSounds": "Click the cards to select sounds",
     "removeSound": "Remove Sound",
     "masterVolume": "Master Volume",
     "active": "Active:",

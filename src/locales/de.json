@@ -20,7 +20,7 @@
   "common": {
     "elapsedTime": "Verstrichene Zeit",
     "activeSounds": "Aktuell läuft",
-    "selectSounds": "Klicken Sie auf die Karten links, um Sounds auszuwählen",
+    "selectSounds": "Klicken Sie auf die Karten, um Sounds auszuwählen",
     "removeSound": "Sound entfernen",
     "masterVolume": "Hauptlautstärke",
     "active": "Aktiv:",

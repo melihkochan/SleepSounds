@@ -20,7 +20,7 @@
   "common": {
     "elapsedTime": "Geçen Süre",
     "activeSounds": "Şu anda çalan sesler",
-    "selectSounds": "Ses seçmek için soldaki kartlara tıklayın",
+    "selectSounds": "Ses seçmek için kartlara tıklayın",
     "removeSound": "Sesi Kaldır",
     "masterVolume": "Ana Ses",
     "active": "Aktif:",

@@ -20,7 +20,7 @@
   "common": {
     "elapsedTime": "経過時間",
     "activeSounds": "再生中",
-    "selectSounds": "左のカードをクリックして音を選択",
+    "selectSounds": "カードをクリックして音を選択",
     "removeSound": "音を削除",
     "masterVolume": "マスターボリューム",
     "active": "アクティブ:",
