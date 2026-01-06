@@ -164,26 +164,10 @@ const SleepMode = ({
             <p className="text-xs md:text-sm text-muted-foreground">
               Sesler çalıyor, gözlerinizi kapatın ve uykuya dalın... 🌙
             </p>
-            {/* Status indicator with Elapsed Time */}
-            <div className="flex items-center justify-center gap-3 pt-0.5">
-              <div className="flex items-center gap-1.5">
-                <div className={`w-1.5 h-1.5 rounded-full ${isPlaying ? 'bg-green-500 animate-pulse' : 'bg-muted-foreground'}`} />
-                <span className="text-xs text-muted-foreground">
-                  {isPlaying ? 'Çalıyor' : 'Duraklatıldı'}
-                </span>
-              </div>
-              <div className="h-3 w-px bg-border/50" />
-              <div className="flex items-center gap-1.5">
-                <span className="text-xs text-muted-foreground">Geçen Süre</span>
-                <span className="text-xs font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tabular-nums">
-                  {formatTime(elapsedTime)}
-                </span>
-              </div>
-            </div>
           </div>
 
           {/* Active Sounds with Volume Controls */}
-          <div className="glass-card p-3 w-full mb-20 sm:mb-24">
+          <div className="glass-card p-3 w-full mb-16 sm:mb-20">
             <div className="flex items-center justify-center gap-2 mb-2">
               <Volume2 className="w-4 h-4 text-primary" />
               <h3 className="text-xs font-semibold text-foreground">Şu anda çalan sesler</h3>
@@ -191,7 +175,7 @@ const SleepMode = ({
                 {activeSounds.length}
               </span>
             </div>
-            <div className="space-y-1.5 max-h-[50vh] overflow-y-auto pr-2 custom-scrollbar">
+            <div className="space-y-1.5 max-h-[60vh] sm:max-h-[50vh] overflow-y-auto pr-2 custom-scrollbar">
               {activeSounds.map(({ sound, volume }) => {
                 const Icon = sound.icon;
                 return (
@@ -237,32 +221,54 @@ const SleepMode = ({
             </div>
           </div>
 
-          {/* Time Display - Only Remaining Time */}
-          {remainingTime !== null && (
-            <div className="flex items-center justify-center w-full">
-              <div className="glass-card px-4 py-3 text-center min-w-[140px]">
-                <div className="flex items-center justify-center gap-1.5 mb-1.5">
-                  <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                  <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Kalan Süre</div>
-                </div>
-                <div className="text-2xl md:text-3xl font-bold text-primary tabular-nums">
-                  {formatTime(remainingTime)}
-                </div>
-              </div>
-            </div>
-          )}
         </div>
 
-        {/* Bottom Controls */}
-        <div className="fixed bottom-4 left-0 right-0 flex justify-center px-4 z-30">
-          <div className="glass-card px-4 py-3 flex flex-col items-center gap-2">
-            <PlayButton
-              isPlaying={isPlaying}
-              onToggle={onPlayToggle}
-              disabled={false}
-            />
-            <div className="text-xs text-muted-foreground text-center">
-              {isPlaying ? "Durdurmak için tıklayın" : "Devam etmek için tıklayın"}
+        {/* Bottom Controls - Modern Compact Design */}
+        <div className="fixed bottom-3 left-0 right-0 flex justify-center px-4 z-30">
+          <div className="glass-card px-3 sm:px-4 py-2 sm:py-2.5 flex items-center justify-between gap-3 sm:gap-4 w-full max-w-lg">
+            {/* Timer - Left Side */}
+            {remainingTime !== null ? (
+              <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                <div className="flex-shrink-0">
+                  <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[10px] sm:text-xs font-semibold text-muted-foreground uppercase tracking-wide truncate">
+                    Kalan Süre
+                  </div>
+                  <div className="text-lg sm:text-xl font-bold text-primary tabular-nums">
+                    {formatTime(remainingTime)}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="flex-1" />
+            )}
+            
+            {/* Play Button - Center */}
+            <div className="flex flex-col items-center gap-1 flex-shrink-0">
+              <PlayButton
+                isPlaying={isPlaying}
+                onToggle={onPlayToggle}
+                disabled={false}
+                size="default"
+              />
+              <div className="text-[10px] text-muted-foreground text-center whitespace-nowrap">
+                {isPlaying ? "Durdur" : "Başlat"}
+              </div>
+            </div>
+            
+            {/* Status - Right Side */}
+            <div className="flex items-center gap-2 flex-1 justify-end min-w-0">
+              <div className="text-right">
+                <div className="text-[10px] sm:text-xs font-semibold text-muted-foreground">
+                  {isPlaying ? "Çalıyor" : "Duraklatıldı"}
+                </div>
+                <div className="text-xs sm:text-sm font-bold text-primary tabular-nums">
+                  {formatTime(elapsedTime)}
+                </div>
+              </div>
+              <div className={`w-2 h-2 rounded-full flex-shrink-0 ${isPlaying ? 'bg-green-500 animate-pulse' : 'bg-muted-foreground'}`} />
             </div>
           </div>
         </div>
