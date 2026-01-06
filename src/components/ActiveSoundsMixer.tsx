@@ -21,8 +21,10 @@ const ActiveSoundsMixer = ({ activeSounds, onVolumeChange, onRemove }: ActiveSou
     return (
       <div className="glass-card p-6 opacity-0 animate-slide-up" style={{ animationFillMode: "forwards" }}>
         <div className="flex flex-col items-center justify-center text-center py-8">
-          <Volume2 className="w-12 h-12 text-muted-foreground/30 mb-3" />
-          <p className="text-sm text-muted-foreground">
+          <div className="w-16 h-16 rounded-2xl bg-secondary/30 flex items-center justify-center mb-4">
+            <Volume2 className="w-8 h-8 text-muted-foreground/40" />
+          </div>
+          <p className="text-sm text-muted-foreground font-medium">
             Ses seçmek için yukarıdaki kartlara tıklayın
           </p>
         </div>
@@ -31,33 +33,48 @@ const ActiveSoundsMixer = ({ activeSounds, onVolumeChange, onRemove }: ActiveSou
   }
 
   return (
-    <div className="glass-card p-4 opacity-0 animate-slide-up" style={{ animationFillMode: "forwards" }}>
-      <div className="flex items-center gap-2 mb-4">
-        <Volume2 className="w-5 h-5 text-primary" />
-        <h3 className="text-sm font-semibold text-foreground">Ses Mikseri</h3>
-        <span className="ml-auto text-xs text-muted-foreground bg-secondary/50 px-2 py-0.5 rounded-full">
+    <div className="glass-card p-5 opacity-0 animate-slide-up" style={{ animationFillMode: "forwards" }}>
+      <div className="flex items-center gap-3 mb-5">
+        <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+          <Volume2 className="w-5 h-5 text-primary" />
+        </div>
+        <div className="flex-1">
+          <h3 className="text-base font-bold text-foreground">Ses Mikseri</h3>
+          <p className="text-xs text-muted-foreground">Aktif sesler</p>
+        </div>
+        <span className="text-xs font-bold text-primary bg-primary/10 px-3 py-1.5 rounded-full">
           {activeSounds.length}
         </span>
       </div>
 
-      <div className="space-y-3 max-h-[calc(100vh-200px)] overflow-y-auto pr-2">
-        {activeSounds.map(({ sound, volume }) => {
+      <div className="space-y-3 max-h-[calc(100vh-250px)] overflow-y-auto pr-2 custom-scrollbar">
+        {activeSounds.map(({ sound, volume }, index) => {
           const Icon = sound.icon;
           return (
-            <div key={sound.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-secondary/30 transition-colors">
+            <div 
+              key={sound.id} 
+              className="flex items-center gap-3 p-3 rounded-xl hover:bg-secondary/40 transition-all duration-300 group"
+              style={{ 
+                animationDelay: `${index * 50}ms`,
+                animation: "slide-up 0.4s ease-out forwards"
+              }}
+            >
               <div
-                className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                style={{ backgroundColor: `${sound.color}20` }}
+                className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110"
+                style={{ 
+                  backgroundColor: `${sound.color}15`,
+                  boxShadow: `0 4px 12px ${sound.color}20`
+                }}
               >
-                <Icon className="w-5 h-5" style={{ color: sound.color }} />
+                <Icon className="w-6 h-6" style={{ color: sound.color }} />
               </div>
 
               <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-sm font-medium text-foreground truncate">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-semibold text-foreground truncate">
                     {sound.name}
                   </span>
-                  <span className="text-xs text-muted-foreground ml-2 font-medium">
+                  <span className="text-xs font-bold text-muted-foreground ml-2 tabular-nums">
                     {volume}%
                   </span>
                 </div>
@@ -74,9 +91,9 @@ const ActiveSoundsMixer = ({ activeSounds, onVolumeChange, onRemove }: ActiveSou
 
               <button
                 onClick={() => onRemove(sound.id)}
-                className="p-1.5 rounded-full hover:bg-destructive/20 transition-colors flex-shrink-0"
+                className="p-2 rounded-lg hover:bg-destructive/20 active:scale-95 transition-all duration-200 flex-shrink-0 group/btn"
               >
-                <X className="w-4 h-4 text-muted-foreground hover:text-destructive transition-colors" />
+                <X className="w-4 h-4 text-muted-foreground group-hover/btn:text-destructive transition-colors" />
               </button>
             </div>
           );

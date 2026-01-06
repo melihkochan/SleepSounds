@@ -18,12 +18,32 @@ const useAudioManager = () => {
     }
   }, []);
 
+  const setVolume = useCallback((id: string, volume: number) => {
+    const instance = audioInstances.current.get(id);
+    if (instance) {
+      if (instance.gainNode) {
+        instance.gainNode.gain.value = volume / 100;
+      } else {
+        instance.audio.volume = volume / 100;
+      }
+    }
+  }, []);
+
   const playSound = useCallback((id: string, url: string, volume: number) => {
     initAudioContext();
 
-    // If already playing, just update volume
+    // If already exists, just update volume and play if paused
     if (audioInstances.current.has(id)) {
-      setVolume(id, volume);
+      const instance = audioInstances.current.get(id);
+      if (instance) {
+        setVolume(id, volume);
+        // Resume if paused
+        if (instance.audio.paused) {
+          instance.audio.play().catch((error) => {
+            console.error(`Ses oynatılamadı (${id}):`, error);
+          });
+        }
+      }
       return;
     }
 
@@ -35,10 +55,6 @@ const useAudioManager = () => {
     audio.addEventListener("error", (e) => {
       console.error(`Ses yüklenemedi (${id}):`, e);
       audioInstances.current.delete(id);
-    });
-
-    audio.addEventListener("loadeddata", () => {
-      console.log(`Ses yüklendi: ${id}`);
     });
 
     if (audioContext.current) {
@@ -64,7 +80,7 @@ const useAudioManager = () => {
       console.error(`Ses oynatılamadı (${id}):`, error);
       audioInstances.current.delete(id);
     });
-  }, [initAudioContext]);
+  }, [initAudioContext, setVolume]);
 
   const stopSound = useCallback((id: string) => {
     const instance = audioInstances.current.get(id);
@@ -72,17 +88,6 @@ const useAudioManager = () => {
       instance.audio.pause();
       instance.audio.currentTime = 0;
       audioInstances.current.delete(id);
-    }
-  }, []);
-
-  const setVolume = useCallback((id: string, volume: number) => {
-    const instance = audioInstances.current.get(id);
-    if (instance) {
-      if (instance.gainNode) {
-        instance.gainNode.gain.value = volume / 100;
-      } else {
-        instance.audio.volume = volume / 100;
-      }
     }
   }, []);
 
@@ -96,14 +101,20 @@ const useAudioManager = () => {
 
   const pauseAll = useCallback(() => {
     audioInstances.current.forEach((instance) => {
-      instance.audio.pause();
+      if (!instance.audio.paused) {
+        instance.audio.pause();
+      }
     });
   }, []);
 
   const resumeAll = useCallback(() => {
     initAudioContext();
     audioInstances.current.forEach((instance) => {
-      instance.audio.play().catch(console.error);
+      if (instance.audio.paused) {
+        instance.audio.play().catch((error) => {
+          console.error("Ses oynatılamadı:", error);
+        });
+      }
     });
   }, [initAudioContext]);
 

@@ -21,7 +21,7 @@ const Index = () => {
   const { playSound, stopSound, setVolume, pauseAll, resumeAll, stopAll } = useAudioManager();
   const { toast } = useToast();
 
-  // Timer logic
+  // Timer logic - start timer when play starts or timer is selected
   useEffect(() => {
     if (selectedTimer && isPlaying) {
       setRemainingTime(selectedTimer * 60);
@@ -35,9 +35,10 @@ const Index = () => {
 
     if (remainingTime <= 0) {
       setIsPlaying(false);
-      pauseAll();
+      stopAll(); // Stop all sounds completely when timer ends
       setSelectedTimer(null);
       setRemainingTime(null);
+      setActiveSounds([]); // Clear active sounds list
       toast({
         title: "Zamanlayıcı Bitti",
         description: "Tüm sesler durduruldu. İyi uykular! 🌙",
@@ -50,23 +51,26 @@ const Index = () => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [remainingTime, isPlaying, pauseAll, toast]);
+  }, [remainingTime, isPlaying, stopAll, toast]);
 
   const handleSoundToggle = useCallback((id: string) => {
     setActiveSounds((prev) => {
       const exists = prev.find((s) => s.id === id);
       if (exists) {
+        // Remove sound - stop it completely
         stopSound(id);
         return prev.filter((s) => s.id !== id);
       } else {
+        // Add sound and play it immediately
         const sound = sounds.find((s) => s.id === id);
-        if (sound && isPlaying) {
+        if (sound) {
           playSound(id, sound.audioUrl, 50);
+          setIsPlaying(true);
         }
         return [...prev, { id, volume: 50 }];
       }
     });
-  }, [isPlaying, playSound, stopSound]);
+  }, [playSound, stopSound, sounds]);
 
   const handleVolumeChange = useCallback((id: string, volume: number) => {
     setActiveSounds((prev) =>
@@ -86,17 +90,15 @@ const Index = () => {
     }
 
     if (isPlaying) {
+      // Pause all sounds (but keep them in the list)
       pauseAll();
+      setIsPlaying(false);
     } else {
-      activeSounds.forEach(({ id, volume }) => {
-        const sound = sounds.find((s) => s.id === id);
-        if (sound) {
-          playSound(id, sound.audioUrl, volume);
-        }
-      });
+      // Resume all paused sounds
+      resumeAll();
+      setIsPlaying(true);
     }
-    setIsPlaying(!isPlaying);
-  }, [activeSounds, isPlaying, pauseAll, playSound, toast]);
+  }, [activeSounds.length, isPlaying, pauseAll, resumeAll, toast]);
 
   const handleTimerSelect = useCallback((minutes: number | null) => {
     setSelectedTimer(minutes);
@@ -106,8 +108,16 @@ const Index = () => {
   }, []);
 
   const handleRemoveSound = useCallback((id: string) => {
+    // Stop sound completely when removed
     stopSound(id);
-    setActiveSounds((prev) => prev.filter((s) => s.id !== id));
+    setActiveSounds((prev) => {
+      const newSounds = prev.filter((s) => s.id !== id);
+      // If no sounds left, set playing to false
+      if (newSounds.length === 0) {
+        setIsPlaying(false);
+      }
+      return newSounds;
+    });
   }, [stopSound]);
 
   const getActiveSoundsWithDetails = () => {
@@ -129,53 +139,61 @@ const Index = () => {
         />
       </div>
 
-      <div className="relative z-10 flex gap-4 px-4 py-8 pb-20 max-w-7xl mx-auto">
-        {/* Main Content */}
-        <div className="flex-1 max-w-lg mx-auto">
-          {/* Header */}
-          <header className="text-center mb-8 opacity-0 animate-slide-up" style={{ animationFillMode: "forwards" }}>
-            <div className="flex items-center justify-center gap-3 mb-2">
-              <img 
-                src="/logo.png" 
-                alt="Sleep Sounds Logo" 
-                className="w-10 h-10 floating-animation"
-              />
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Sleep Sounds
-              </h1>
-            </div>
-            <p className="text-muted-foreground text-sm">
-              Huzurlu bir uyku için ortam seslerini karıştırın
-            </p>
-          </header>
-
-          {/* Sound Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {sounds.map((sound, index) => (
-              <SoundCard
-                key={sound.id}
-                id={sound.id}
-                name={sound.name}
-                icon={sound.icon}
-                color={sound.color}
-                volume={activeSounds.find((s) => s.id === sound.id)?.volume ?? 50}
-                isActive={activeSounds.some((s) => s.id === sound.id)}
-                onToggle={handleSoundToggle}
-                onVolumeChange={handleVolumeChange}
-                delay={index * 50}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Right Sidebar - Active Sounds Mixer */}
-        <div className="hidden lg:block w-80 flex-shrink-0">
-          <div className="sticky top-8">
-            <ActiveSoundsMixer
-              activeSounds={getActiveSoundsWithDetails()}
-              onVolumeChange={handleVolumeChange}
-              onRemove={handleRemoveSound}
+      <div className="relative z-10 px-4 py-6 pb-20 max-w-6xl mx-auto">
+        {/* Header */}
+        <header className="text-center mb-6 opacity-0 animate-slide-up" style={{ animationFillMode: "forwards" }}>
+          <div className="flex items-center justify-center gap-3 mb-2">
+            <img 
+              src="/logo.png" 
+              alt="Sleep Sounds Logo" 
+              className="w-10 h-10 floating-animation"
             />
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              Sleep Sounds
+            </h1>
+          </div>
+          <p className="text-muted-foreground text-sm mb-3">
+            Huzurlu bir uyku için ortam seslerini karıştırın
+          </p>
+          <a 
+            href="https://melihkochan.com" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-xs text-muted-foreground/60 hover:text-muted-foreground transition-colors inline-flex items-center gap-1"
+          >
+            <span>by</span>
+            <span className="font-medium">melihkochan.com</span>
+          </a>
+        </header>
+
+        <div className="flex gap-8">
+          {/* Main Content - Sound Grid */}
+          <div className="flex-1">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
+              {sounds.map((sound, index) => (
+                <SoundCard
+                  key={sound.id}
+                  id={sound.id}
+                  name={sound.name}
+                  icon={sound.icon}
+                  color={sound.color}
+                  isActive={activeSounds.some((s) => s.id === sound.id)}
+                  onToggle={handleSoundToggle}
+                  delay={index * 50}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Right Sidebar - Active Sounds Mixer */}
+          <div className="hidden lg:block w-96 flex-shrink-0">
+            <div className="sticky top-8">
+              <ActiveSoundsMixer
+                activeSounds={getActiveSoundsWithDetails()}
+                onVolumeChange={handleVolumeChange}
+                onRemove={handleRemoveSound}
+              />
+            </div>
           </div>
         </div>
       </div>

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import { LucideIcon } from "lucide-react";
 
@@ -8,10 +7,8 @@ interface SoundCardProps {
   name: string;
   icon: LucideIcon;
   color: string;
-  volume: number;
   isActive: boolean;
   onToggle: (id: string) => void;
-  onVolumeChange: (id: string, volume: number) => void;
   delay?: number;
 }
 
@@ -20,78 +17,87 @@ const SoundCard = ({
   name,
   icon: Icon,
   color,
-  volume,
   isActive,
   onToggle,
-  onVolumeChange,
   delay = 0,
 }: SoundCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+
+  const handleClick = () => {
+    setIsClicked(true);
+    setTimeout(() => setIsClicked(false), 300);
+    onToggle(id);
+  };
 
   return (
     <div
       className={cn(
-        "glass-card p-4 cursor-pointer transition-all duration-300 opacity-0 animate-slide-up glow-effect",
-        isActive && "sound-card-active",
-        isHovered && "scale-[1.02]"
+        "glass-card p-5 cursor-pointer transition-all duration-300 ease-out opacity-0 animate-slide-up",
+        "hover:scale-[1.03] hover:shadow-xl hover:shadow-primary/10",
+        isActive && "sound-card-active ring-2",
+        isClicked && "animate-bounce-click"
       )}
       style={{ 
         animationDelay: `${delay}ms`,
-        animationFillMode: "forwards"
+        animationFillMode: "forwards",
+        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+        ringColor: isActive ? color : "transparent"
       }}
-      onClick={() => onToggle(id)}
+      onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="flex flex-col items-center gap-3">
         <div
           className={cn(
-            "w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-300",
-            isActive ? "scale-110" : "scale-100"
+            "w-20 h-20 rounded-3xl flex items-center justify-center transition-all duration-300 ease-out relative overflow-hidden",
+            isActive ? "scale-105" : "scale-100"
           )}
           style={{
-            backgroundColor: isActive ? `${color}20` : "hsl(var(--secondary))",
-            boxShadow: isActive ? `0 0 30px ${color}40` : "none",
+            backgroundColor: isActive 
+              ? `${color}15` 
+              : "hsl(var(--secondary)/0.5)",
+            boxShadow: isActive 
+              ? `0 8px 32px ${color}30, 0 0 0 1px ${color}20` 
+              : "0 4px 16px hsl(var(--background)/0.3)",
+            transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
           }}
         >
+          {/* Gradient overlay on active */}
+          {isActive && (
+            <div 
+              className="absolute inset-0 opacity-20"
+              style={{
+                background: `radial-gradient(circle at center, ${color} 0%, transparent 70%)`
+              }}
+            />
+          )}
+          
           <Icon
             className={cn(
-              "w-8 h-8 transition-all duration-300",
-              isActive && "floating-animation"
+              "w-10 h-10 transition-all duration-300 relative z-10",
+              isActive && "animate-icon-pulse",
+              !isActive && isHovered && "scale-110"
             )}
-            style={{ color: isActive ? color : "hsl(var(--muted-foreground))" }}
+            style={{ 
+              color: isActive ? color : "hsl(var(--muted-foreground))",
+              filter: isActive ? `drop-shadow(0 0 8px ${color}60)` : "none",
+              transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+            }}
           />
         </div>
 
         <span
           className={cn(
-            "text-sm font-medium transition-colors duration-300",
-            isActive ? "text-foreground" : "text-muted-foreground"
+            "text-sm font-semibold transition-all duration-300",
+            isActive 
+              ? "text-foreground" 
+              : "text-muted-foreground"
           )}
         >
           {name}
         </span>
-
-        {isActive && (
-          <div 
-            className="w-full mt-2 opacity-0 animate-slide-up"
-            style={{ animationDelay: "100ms", animationFillMode: "forwards" }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <Slider
-              variant="sound"
-              soundColor={color}
-              value={[volume]}
-              max={100}
-              step={1}
-              onValueChange={(values) => onVolumeChange(id, values[0])}
-              className="w-full"
-            />
-            <span className="text-xs text-muted-foreground mt-1 block text-center">
-              {volume}%
-            </span>
-          </div>
-        )}
       </div>
     </div>
   );
