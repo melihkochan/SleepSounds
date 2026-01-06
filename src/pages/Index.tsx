@@ -408,10 +408,20 @@ const Index = () => {
                 />
               )}
 
-              <div className="text-center min-w-[80px]">
-                <span className="text-xs text-muted-foreground">
-                  {activeSounds.length} {activeSounds.length === 1 ? t("common.sound") : t("common.sounds")}
-                </span>
+              <div className="text-center min-w-[85px] sm:min-w-[95px]">
+                <div className="flex flex-col items-center gap-0.5">
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent tabular-nums">
+                      {activeSounds.length}
+                    </span>
+                    <span className="text-[10px] sm:text-xs font-medium text-primary/80 uppercase tracking-wider">
+                      {activeSounds.length === 1 ? t("common.sound") : t("common.sounds")}
+                    </span>
+                  </div>
+                  {activeSounds.length > 0 && (
+                    <div className="w-8 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent rounded-full" />
+                  )}
+                </div>
               </div>
             </div>
 
