@@ -6,11 +6,13 @@ import TimerButton from "@/components/TimerButton";
 import StarField from "@/components/StarField";
 import ActiveSoundsMixer from "@/components/ActiveSoundsMixer";
 import SleepMode from "@/components/SleepMode";
+import LanguageSelector from "@/components/LanguageSelector";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import useAudioManager from "@/hooks/useAudioManager";
-import { sounds, type SoundData } from "@/data/sounds";
+import { getSounds, type SoundData } from "@/data/sounds";
 import { useToast } from "@/hooks/use-toast";
+import { useI18n } from "@/contexts/I18nContext";
 
 interface ActiveSound {
   id: string;
@@ -28,6 +30,8 @@ const Index = () => {
   const [masterVolume, setMasterVolume] = useState<number>(100); // Master volume (0-100)
   const { playSound, stopSound, setVolume, setMasterVolume: setMasterVolumeAudio, pauseAll, resumeAll, stopAll } = useAudioManager();
   const { toast } = useToast();
+  const { t } = useI18n();
+  const sounds = getSounds(t);
 
   // Timer logic - start timer when play starts or timer is selected
   useEffect(() => {
@@ -64,8 +68,8 @@ const Index = () => {
       setElapsedTime(0);
       setPlayStartTime(null);
       toast({
-        title: "Zamanlayıcı Bitti",
-        description: "Tüm sesler durduruldu. İyi uykular! 🌙",
+        title: t("toasts.timerEnded.title"),
+        description: t("toasts.timerEnded.description"),
       });
       return;
     }
@@ -119,8 +123,8 @@ const Index = () => {
   const handlePlayToggle = useCallback(() => {
     if (activeSounds.length === 0) {
       toast({
-        title: "Ses Seçin",
-        description: "Oynatmak için en az bir ses seçin.",
+        title: t("toasts.selectSound.title"),
+        description: t("toasts.selectSound.description"),
         variant: "destructive",
       });
       return;
@@ -155,8 +159,8 @@ const Index = () => {
   const handleEnterSleepMode = useCallback(() => {
     if (activeSounds.length === 0) {
       toast({
-        title: "Ses Seçin",
-        description: "Uyku moduna geçmek için en az bir ses seçin.",
+        title: t("toasts.selectSoundForSleepMode.title"),
+        description: t("toasts.selectSoundForSleepMode.description"),
         variant: "destructive",
       });
       return;
@@ -204,15 +208,15 @@ const Index = () => {
         setShowSleepMode(false);
       }
       toast({
-        title: "Tüm Sesler Durduruldu",
-        description: "Tüm sesler durduruldu.",
+        title: t("toasts.allSoundsStopped.title"),
+        description: t("toasts.allSoundsStopped.description"),
       });
     } else {
       // Başlat
       if (activeSounds.length === 0) {
         toast({
-          title: "Ses Seçin",
-          description: "Oynatmak için en az bir ses seçin.",
+          title: t("toasts.selectSound.title"),
+          description: t("toasts.selectSound.description"),
           variant: "destructive",
         });
         return;
@@ -223,8 +227,8 @@ const Index = () => {
         setPlayStartTime(Date.now() - elapsedTime * 1000);
       }
       toast({
-        title: "Sesler Başlatıldı",
-        description: "Tüm sesler oynatılıyor.",
+        title: t("toasts.allSoundsStarted.title"),
+        description: t("toasts.allSoundsStarted.description"),
       });
     }
   }, [isPlaying, pauseAll, resumeAll, activeSounds.length, showSleepMode, playStartTime, elapsedTime, toast]);
@@ -275,13 +279,14 @@ const Index = () => {
       <div className="relative z-10 px-4 py-4 sm:py-6 pb-64 sm:pb-20 max-w-6xl mx-auto">
         {/* Header */}
         <header className="text-center mb-6 opacity-0 animate-slide-up" style={{ animationFillMode: "forwards" }}>
-          <div className="flex items-center justify-center mb-2">
+          <div className="flex items-center justify-center gap-3 mb-2">
             <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Sleep Sounds
+              {t("app.title")}
             </h1>
+            <LanguageSelector />
           </div>
           <p className="text-muted-foreground text-sm mb-3">
-            Huzurlu bir uyku için ortam seslerini karıştırın
+            {t("app.subtitle")}
           </p>
           <a 
             href="https://melihkochan.com" 
@@ -289,8 +294,8 @@ const Index = () => {
             rel="noopener noreferrer"
             className="text-xs text-muted-foreground/60 hover:text-muted-foreground transition-colors inline-flex items-center gap-1"
           >
-            <span>by</span>
-            <span className="font-medium">melihkochan.com</span>
+            <span>{t("app.by")}</span>
+            <span className="font-medium">{t("app.author")}</span>
           </a>
         </header>
 
@@ -300,7 +305,7 @@ const Index = () => {
             <div className="glass-card px-4 sm:px-6 py-2 sm:py-3 inline-flex items-center justify-center gap-2 sm:gap-3">
               <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
               <div className="flex items-center justify-center gap-1.5 sm:gap-2">
-                <span className="text-xs text-muted-foreground font-medium">Geçen Süre</span>
+                <span className="text-xs text-muted-foreground font-medium">{t("common.elapsedTime")}</span>
                 <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tabular-nums">
                   {formatTime(elapsedTime)}
                 </span>
@@ -367,7 +372,7 @@ const Index = () => {
                   <button
                     onClick={handleEnterSleepMode}
                     className="relative w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 bg-gradient-to-br from-primary to-accent hover:scale-105 active:scale-95 shadow-[0_0_20px_hsl(var(--primary)/0.4)] group"
-                    title="Uyku Moduna Geç"
+                    title={t("common.enterSleepMode")}
                   >
                     <Moon className="w-6 h-6 text-primary-foreground group-hover:scale-110 transition-transform" />
                   </button>
@@ -379,7 +384,7 @@ const Index = () => {
                         ? "bg-destructive/20 hover:bg-destructive/30 border border-destructive/30 hover:border-destructive/50"
                         : "bg-primary/20 hover:bg-primary/30 border border-primary/30 hover:border-primary/50"
                     )}
-                    title={isPlaying ? "Tümünü Durdur" : "Tümünü Başlat"}
+                    title={isPlaying ? t("common.stopAll") : t("common.startAll")}
                   >
                     {isPlaying ? (
                       <Square className="w-5 h-5 text-destructive group-hover:scale-110 transition-transform" fill="currentColor" />
@@ -398,7 +403,7 @@ const Index = () => {
 
               <div className="text-center min-w-[80px]">
                 <span className="text-xs text-muted-foreground">
-                  {activeSounds.length} ses
+                  {activeSounds.length} {activeSounds.length === 1 ? t("common.sound") : t("common.sounds")}
                 </span>
               </div>
             </div>
@@ -408,7 +413,7 @@ const Index = () => {
               <div className="flex items-center gap-2 sm:gap-3 px-1 sm:px-2">
                 <div className="flex items-center gap-1.5 sm:gap-2 min-w-[80px] sm:min-w-[100px]">
                   <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
-                  <span className="text-xs font-semibold text-foreground">Ana Ses</span>
+                  <span className="text-xs font-semibold text-foreground">{t("common.masterVolume")}</span>
                 </div>
                 <Slider
                   value={[masterVolume]}
@@ -428,7 +433,7 @@ const Index = () => {
             {/* Active Sounds Preview - Mobile Only */}
             {activeSounds.length > 0 && (
               <div className="lg:hidden flex items-center gap-1.5 sm:gap-2 px-1 sm:px-2 mt-1.5 sm:mt-2 pt-1.5 sm:pt-2 border-t border-border/30">
-                <span className="text-xs text-muted-foreground font-medium min-w-[50px] sm:min-w-[60px]">Aktif:</span>
+                <span className="text-xs text-muted-foreground font-medium min-w-[50px] sm:min-w-[60px]">{t("common.active")}</span>
                 <div className="flex items-center gap-1 sm:gap-1.5 flex-1 overflow-x-auto scrollbar-hide">
                   {getActiveSoundsWithDetails().map(({ sound }) => {
                     const Icon = sound.icon;

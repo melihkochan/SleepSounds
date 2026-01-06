@@ -1,0 +1,84 @@
+{
+  "app": {
+    "title": "Sleep Sounds",
+    "subtitle": "Mix ambient sounds for a peaceful sleep",
+    "by": "by",
+    "author": "melihkochan.com"
+  },
+  "sounds": {
+    "rain": "Rain",
+    "fire": "Fireplace",
+    "birds": "Birds",
+    "wind": "Wind",
+    "waves": "Waves",
+    "night": "Night",
+    "cafe": "Cafe",
+    "thunder": "Thunder",
+    "forest": "Forest",
+    "train": "Train"
+  },
+  "common": {
+    "elapsedTime": "Elapsed Time",
+    "activeSounds": "Currently Playing",
+    "selectSounds": "Click the cards on the left to select sounds",
+    "removeSound": "Remove Sound",
+    "masterVolume": "Master Volume",
+    "active": "Active:",
+    "sounds": "sounds",
+    "sound": "sound",
+    "playing": "Playing",
+    "paused": "Paused",
+    "start": "Start",
+    "stop": "Stop",
+    "stopAll": "Stop All",
+    "startAll": "Start All",
+    "enterSleepMode": "Enter Sleep Mode",
+    "cancel": "Cancel",
+    "set": "Set"
+  },
+  "toasts": {
+    "timerEnded": {
+      "title": "Timer Ended",
+      "description": "All sounds stopped. Sweet dreams! 🌙"
+    },
+    "selectSound": {
+      "title": "Select Sound",
+      "description": "Please select at least one sound to play."
+    },
+    "selectSoundForSleepMode": {
+      "title": "Select Sound",
+      "description": "Please select at least one sound to enter sleep mode."
+    },
+    "allSoundsStopped": {
+      "title": "All Sounds Stopped",
+      "description": "All sounds have been stopped."
+    },
+    "allSoundsStarted": {
+      "title": "Sounds Started",
+      "description": "All sounds are now playing."
+    }
+  },
+  "sleepMode": {
+    "title": "Relax and Sleep",
+    "subtitle": "Sounds are playing, close your eyes and drift off to sleep... 🌙",
+    "remainingTime": "Remaining Time"
+  },
+  "timer": {
+    "label": "Timer",
+    "off": "Off",
+    "custom": "Custom Time...",
+    "customTitle": "Custom Timer",
+    "customDescription": "Enter duration in minutes (1-1440 minutes)",
+    "customPlaceholder": "e.g: 90",
+    "customDuration": "duration",
+    "invalidDuration": "Invalid duration",
+    "options": {
+      "15min": "15 minutes",
+      "30min": "30 minutes",
+      "45min": "45 minutes",
+      "1hour": "1 hour",
+      "2hours": "2 hours"
+    }
+  }
+}
+

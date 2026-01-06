@@ -1,0 +1,84 @@
+{
+  "app": {
+    "title": "Sleep Sounds",
+    "subtitle": "Mezcla sonidos ambientales para un sueño tranquilo",
+    "by": "por",
+    "author": "melihkochan.com"
+  },
+  "sounds": {
+    "rain": "Lluvia",
+    "fire": "Chimenea",
+    "birds": "Pájaros",
+    "wind": "Viento",
+    "waves": "Olas",
+    "night": "Noche",
+    "cafe": "Café",
+    "thunder": "Trueno",
+    "forest": "Bosque",
+    "train": "Tren"
+  },
+  "common": {
+    "elapsedTime": "Tiempo transcurrido",
+    "activeSounds": "Reproduciendo ahora",
+    "selectSounds": "Haz clic en las tarjetas de la izquierda para seleccionar sonidos",
+    "removeSound": "Quitar sonido",
+    "masterVolume": "Volumen principal",
+    "active": "Activo:",
+    "sounds": "sonidos",
+    "sound": "sonido",
+    "playing": "Reproduciendo",
+    "paused": "En pausa",
+    "start": "Iniciar",
+    "stop": "Detener",
+    "stopAll": "Detener todo",
+    "startAll": "Iniciar todo",
+    "enterSleepMode": "Entrar en modo sueño",
+    "cancel": "Cancelar",
+    "set": "Establecer"
+  },
+  "toasts": {
+    "timerEnded": {
+      "title": "Temporizador finalizado",
+      "description": "Todos los sonidos detenidos. ¡Dulces sueños! 🌙"
+    },
+    "selectSound": {
+      "title": "Seleccionar sonido",
+      "description": "Por favor selecciona al menos un sonido para reproducir."
+    },
+    "selectSoundForSleepMode": {
+      "title": "Seleccionar sonido",
+      "description": "Por favor selecciona al menos un sonido para entrar en modo sueño."
+    },
+    "allSoundsStopped": {
+      "title": "Todos los sonidos detenidos",
+      "description": "Todos los sonidos han sido detenidos."
+    },
+    "allSoundsStarted": {
+      "title": "Sonidos iniciados",
+      "description": "Todos los sonidos se están reproduciendo ahora."
+    }
+  },
+  "sleepMode": {
+    "title": "Relájate y duerme",
+    "subtitle": "Los sonidos están reproduciéndose, cierra los ojos y déjate llevar al sueño... 🌙",
+    "remainingTime": "Tiempo restante"
+  },
+  "timer": {
+    "label": "Temporizador",
+    "off": "Desactivado",
+    "custom": "Tiempo personalizado...",
+    "customTitle": "Temporizador personalizado",
+    "customDescription": "Ingresa la duración en minutos (1-1440 minutos)",
+    "customPlaceholder": "ej: 90",
+    "customDuration": "duración",
+    "invalidDuration": "Duración inválida",
+    "options": {
+      "15min": "15 minutos",
+      "30min": "30 minutos",
+      "45min": "45 minutos",
+      "1hour": "1 hora",
+      "2hours": "2 horas"
+    }
+  }
+}
+

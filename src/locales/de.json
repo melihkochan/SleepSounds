@@ -1,0 +1,84 @@
+{
+  "app": {
+    "title": "Sleep Sounds",
+    "subtitle": "Mischen Sie Umgebungsgeräusche für einen friedlichen Schlaf",
+    "by": "von",
+    "author": "melihkochan.com"
+  },
+  "sounds": {
+    "rain": "Regen",
+    "fire": "Kamin",
+    "birds": "Vögel",
+    "wind": "Wind",
+    "waves": "Wellen",
+    "night": "Nacht",
+    "cafe": "Café",
+    "thunder": "Donner",
+    "forest": "Wald",
+    "train": "Zug"
+  },
+  "common": {
+    "elapsedTime": "Verstrichene Zeit",
+    "activeSounds": "Aktuell läuft",
+    "selectSounds": "Klicken Sie auf die Karten links, um Sounds auszuwählen",
+    "removeSound": "Sound entfernen",
+    "masterVolume": "Hauptlautstärke",
+    "active": "Aktiv:",
+    "sounds": "Sounds",
+    "sound": "Sound",
+    "playing": "Läuft",
+    "paused": "Pausiert",
+    "start": "Start",
+    "stop": "Stopp",
+    "stopAll": "Alle stoppen",
+    "startAll": "Alle starten",
+    "enterSleepMode": "Schlafmodus aktivieren",
+    "cancel": "Abbrechen",
+    "set": "Festlegen"
+  },
+  "toasts": {
+    "timerEnded": {
+      "title": "Timer beendet",
+      "description": "Alle Sounds gestoppt. Süße Träume! 🌙"
+    },
+    "selectSound": {
+      "title": "Sound auswählen",
+      "description": "Bitte wählen Sie mindestens einen Sound zum Abspielen aus."
+    },
+    "selectSoundForSleepMode": {
+      "title": "Sound auswählen",
+      "description": "Bitte wählen Sie mindestens einen Sound aus, um den Schlafmodus zu aktivieren."
+    },
+    "allSoundsStopped": {
+      "title": "Alle Sounds gestoppt",
+      "description": "Alle Sounds wurden gestoppt."
+    },
+    "allSoundsStarted": {
+      "title": "Sounds gestartet",
+      "description": "Alle Sounds werden jetzt abgespielt."
+    }
+  },
+  "sleepMode": {
+    "title": "Entspannen und schlafen",
+    "subtitle": "Sounds laufen, schließen Sie die Augen und schlafen Sie ein... 🌙",
+    "remainingTime": "Verbleibende Zeit"
+  },
+  "timer": {
+    "label": "Timer",
+    "off": "Aus",
+    "custom": "Benutzerdefinierte Zeit...",
+    "customTitle": "Benutzerdefinierter Timer",
+    "customDescription": "Geben Sie die Dauer in Minuten ein (1-1440 Minuten)",
+    "customPlaceholder": "z.B: 90",
+    "customDuration": "Dauer",
+    "invalidDuration": "Ungültige Dauer",
+    "options": {
+      "15min": "15 Minuten",
+      "30min": "30 Minuten",
+      "45min": "45 Minuten",
+      "1hour": "1 Stunde",
+      "2hours": "2 Stunden"
+    }
+  }
+}
+

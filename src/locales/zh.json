@@ -1,0 +1,84 @@
+{
+  "app": {
+    "title": "Sleep Sounds",
+    "subtitle": "混合环境音以获得宁静的睡眠",
+    "by": "由",
+    "author": "melihkochan.com"
+  },
+  "sounds": {
+    "rain": "雨",
+    "fire": "壁炉",
+    "birds": "鸟",
+    "wind": "风",
+    "waves": "海浪",
+    "night": "夜晚",
+    "cafe": "咖啡厅",
+    "thunder": "雷声",
+    "forest": "森林",
+    "train": "火车"
+  },
+  "common": {
+    "elapsedTime": "已用时间",
+    "activeSounds": "正在播放",
+    "selectSounds": "点击左侧卡片选择声音",
+    "removeSound": "移除声音",
+    "masterVolume": "主音量",
+    "active": "活跃:",
+    "sounds": "声音",
+    "sound": "声音",
+    "playing": "播放中",
+    "paused": "已暂停",
+    "start": "开始",
+    "stop": "停止",
+    "stopAll": "全部停止",
+    "startAll": "全部开始",
+    "enterSleepMode": "进入睡眠模式",
+    "cancel": "取消",
+    "set": "设置"
+  },
+  "toasts": {
+    "timerEnded": {
+      "title": "计时器结束",
+      "description": "所有声音已停止。晚安！🌙"
+    },
+    "selectSound": {
+      "title": "选择声音",
+      "description": "请至少选择一个声音进行播放。"
+    },
+    "selectSoundForSleepMode": {
+      "title": "选择声音",
+      "description": "请至少选择一个声音以进入睡眠模式。"
+    },
+    "allSoundsStopped": {
+      "title": "所有声音已停止",
+      "description": "所有声音已停止。"
+    },
+    "allSoundsStarted": {
+      "title": "声音已开始",
+      "description": "所有声音正在播放。"
+    }
+  },
+  "sleepMode": {
+    "title": "放松并入睡",
+    "subtitle": "声音正在播放，闭上眼睛，进入梦乡...🌙",
+    "remainingTime": "剩余时间"
+  },
+  "timer": {
+    "label": "计时器",
+    "off": "关闭",
+    "custom": "自定义时间...",
+    "customTitle": "自定义计时器",
+    "customDescription": "输入分钟数（1-1440分钟）",
+    "customPlaceholder": "例如: 90",
+    "customDuration": "时长",
+    "invalidDuration": "无效时长",
+    "options": {
+      "15min": "15分钟",
+      "30min": "30分钟",
+      "45min": "45分钟",
+      "1hour": "1小时",
+      "2hours": "2小时"
+    }
+  }
+}
+

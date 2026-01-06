@@ -1,0 +1,84 @@
+{
+  "app": {
+    "title": "Sleep Sounds",
+    "subtitle": "Misture sons ambientais para um sono tranquilo",
+    "by": "por",
+    "author": "melihkochan.com"
+  },
+  "sounds": {
+    "rain": "Chuva",
+    "fire": "Lareira",
+    "birds": "Pássaros",
+    "wind": "Vento",
+    "waves": "Ondas",
+    "night": "Noite",
+    "cafe": "Café",
+    "thunder": "Trovão",
+    "forest": "Floresta",
+    "train": "Trem"
+  },
+  "common": {
+    "elapsedTime": "Tempo decorrido",
+    "activeSounds": "Reproduzindo agora",
+    "selectSounds": "Clique nos cartões à esquerda para selecionar sons",
+    "removeSound": "Remover som",
+    "masterVolume": "Volume principal",
+    "active": "Ativo:",
+    "sounds": "sons",
+    "sound": "som",
+    "playing": "Reproduzindo",
+    "paused": "Pausado",
+    "start": "Iniciar",
+    "stop": "Parar",
+    "stopAll": "Parar tudo",
+    "startAll": "Iniciar tudo",
+    "enterSleepMode": "Entrar no modo sono",
+    "cancel": "Cancelar",
+    "set": "Definir"
+  },
+  "toasts": {
+    "timerEnded": {
+      "title": "Timer finalizado",
+      "description": "Todos os sons parados. Bons sonhos! 🌙"
+    },
+    "selectSound": {
+      "title": "Selecionar som",
+      "description": "Por favor, selecione pelo menos um som para reproduzir."
+    },
+    "selectSoundForSleepMode": {
+      "title": "Selecionar som",
+      "description": "Por favor, selecione pelo menos um som para entrar no modo sono."
+    },
+    "allSoundsStopped": {
+      "title": "Todos os sons parados",
+      "description": "Todos os sons foram parados."
+    },
+    "allSoundsStarted": {
+      "title": "Sons iniciados",
+      "description": "Todos os sons estão sendo reproduzidos agora."
+    }
+  },
+  "sleepMode": {
+    "title": "Relaxe e durma",
+    "subtitle": "Os sons estão tocando, feche os olhos e adormeça... 🌙",
+    "remainingTime": "Tempo restante"
+  },
+  "timer": {
+    "label": "Timer",
+    "off": "Desligado",
+    "custom": "Tempo personalizado...",
+    "customTitle": "Timer personalizado",
+    "customDescription": "Digite a duração em minutos (1-1440 minutos)",
+    "customPlaceholder": "ex: 90",
+    "customDuration": "duração",
+    "invalidDuration": "Duração inválida",
+    "options": {
+      "15min": "15 minutos",
+      "30min": "30 minutos",
+      "45min": "45 minutos",
+      "1hour": "1 hora",
+      "2hours": "2 horas"
+    }
+  }
+}
+

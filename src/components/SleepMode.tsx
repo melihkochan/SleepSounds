@@ -3,6 +3,7 @@ import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Slider } from "@/components/ui/slider";
 import PlayButton from "./PlayButton";
+import { useI18n } from "@/contexts/I18nContext";
 
 interface Sound {
   id: string;
@@ -43,6 +44,7 @@ const SleepMode = ({
   onVolumeChange,
   onRemoveSound,
 }: SleepModeProps) => {
+  const { t } = useI18n();
   // Get primary sound for background (first active sound)
   const primarySound = activeSounds[0]?.sound;
   const primaryColor = primarySound?.color || "hsl(var(--primary))";
@@ -159,10 +161,10 @@ const SleepMode = ({
           {/* Title */}
           <div className="space-y-1.5 mb-2">
             <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-pulse-slow">
-              Rahatlayın ve Uyuyun
+              {t("sleepMode.title")}
             </h2>
             <p className="text-xs md:text-sm text-muted-foreground">
-              Sesler çalıyor, gözlerinizi kapatın ve uykuya dalın... 🌙
+              {t("sleepMode.subtitle")}
             </p>
           </div>
 
@@ -170,7 +172,7 @@ const SleepMode = ({
           <div className="glass-card p-3 w-full mb-16 sm:mb-20">
             <div className="flex items-center justify-center gap-2 mb-2">
               <Volume2 className="w-4 h-4 text-primary" />
-              <h3 className="text-xs font-semibold text-foreground">Şu anda çalan sesler</h3>
+              <h3 className="text-xs font-semibold text-foreground">{t("common.activeSounds")}</h3>
               <span className="ml-auto text-xs text-muted-foreground bg-primary/10 px-2 py-0.5 rounded-full">
                 {activeSounds.length}
               </span>
@@ -211,7 +213,7 @@ const SleepMode = ({
                     <button
                       onClick={() => onRemoveSound(sound.id)}
                       className="p-1 rounded-lg hover:bg-destructive/20 active:scale-95 transition-all flex-shrink-0"
-                      title="Sesi Kaldır"
+                      title={t("common.removeSound")}
                     >
                       <X className="w-3.5 h-3.5 text-muted-foreground hover:text-destructive transition-colors" />
                     </button>
@@ -234,7 +236,7 @@ const SleepMode = ({
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-[10px] sm:text-xs font-semibold text-muted-foreground uppercase tracking-wide truncate">
-                    Kalan Süre
+                    {t("sleepMode.remainingTime")}
                   </div>
                   <div className="text-lg sm:text-xl font-bold text-primary tabular-nums">
                     {formatTime(remainingTime)}
@@ -254,7 +256,7 @@ const SleepMode = ({
                 size="default"
               />
               <div className="text-[10px] text-muted-foreground text-center whitespace-nowrap">
-                {isPlaying ? "Durdur" : "Başlat"}
+                {isPlaying ? t("common.stop") : t("common.start")}
               </div>
             </div>
             
@@ -262,7 +264,7 @@ const SleepMode = ({
             <div className="flex items-center gap-2 flex-1 justify-end min-w-0">
               <div className="text-right">
                 <div className="text-[10px] sm:text-xs font-semibold text-muted-foreground">
-                  {isPlaying ? "Çalıyor" : "Duraklatıldı"}
+                  {isPlaying ? t("common.playing") : t("common.paused")}
                 </div>
                 <div className="text-xs sm:text-sm font-bold text-primary tabular-nums">
                   {formatTime(elapsedTime)}

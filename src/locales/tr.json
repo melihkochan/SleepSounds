@@ -1,0 +1,84 @@
+{
+  "app": {
+    "title": "Sleep Sounds",
+    "subtitle": "Huzurlu bir uyku için ortam seslerini karıştırın",
+    "by": "by",
+    "author": "melihkochan.com"
+  },
+  "sounds": {
+    "rain": "Yağmur",
+    "fire": "Şömine",
+    "birds": "Kuşlar",
+    "wind": "Rüzgar",
+    "waves": "Dalgalar",
+    "night": "Gece",
+    "cafe": "Kafe",
+    "thunder": "Gök Gürültüsü",
+    "forest": "Orman",
+    "train": "Tren"
+  },
+  "common": {
+    "elapsedTime": "Geçen Süre",
+    "activeSounds": "Şu anda çalan sesler",
+    "selectSounds": "Ses seçmek için soldaki kartlara tıklayın",
+    "removeSound": "Sesi Kaldır",
+    "masterVolume": "Ana Ses",
+    "active": "Aktif:",
+    "sounds": "ses",
+    "sound": "ses",
+    "playing": "Çalıyor",
+    "paused": "Duraklatıldı",
+    "start": "Başlat",
+    "stop": "Durdur",
+    "stopAll": "Tümünü Durdur",
+    "startAll": "Tümünü Başlat",
+    "enterSleepMode": "Uyku Moduna Geç",
+    "cancel": "İptal",
+    "set": "Ayarla"
+  },
+  "toasts": {
+    "timerEnded": {
+      "title": "Zamanlayıcı Bitti",
+      "description": "Tüm sesler durduruldu. İyi uykular! 🌙"
+    },
+    "selectSound": {
+      "title": "Ses Seçin",
+      "description": "Oynatmak için en az bir ses seçin."
+    },
+    "selectSoundForSleepMode": {
+      "title": "Ses Seçin",
+      "description": "Uyku moduna geçmek için en az bir ses seçin."
+    },
+    "allSoundsStopped": {
+      "title": "Tüm Sesler Durduruldu",
+      "description": "Tüm sesler durduruldu."
+    },
+    "allSoundsStarted": {
+      "title": "Sesler Başlatıldı",
+      "description": "Tüm sesler oynatılıyor."
+    }
+  },
+  "sleepMode": {
+    "title": "Rahatlayın ve Uyuyun",
+    "subtitle": "Sesler çalıyor, gözlerinizi kapatın ve uykuya dalın... 🌙",
+    "remainingTime": "Kalan Süre"
+  },
+  "timer": {
+    "label": "Zamanlayıcı",
+    "off": "Kapalı",
+    "custom": "Özel Zaman...",
+    "customTitle": "Özel Zamanlayıcı",
+    "customDescription": "Dakika cinsinden süre girin (1-1440 dakika)",
+    "customPlaceholder": "Örn: 90",
+    "customDuration": "süre",
+    "invalidDuration": "Geçersiz süre",
+    "options": {
+      "15min": "15 dakika",
+      "30min": "30 dakika",
+      "45min": "45 dakika",
+      "1hour": "1 saat",
+      "2hours": "2 saat"
+    }
+  }
+}
+

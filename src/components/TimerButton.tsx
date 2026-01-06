@@ -18,21 +18,13 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/contexts/I18nContext";
 
 interface TimerButtonProps {
   selectedTime: number | null;
   onTimeSelect: (minutes: number | null) => void;
   remainingTime: number | null;
 }
-
-const timerOptions = [
-  { label: "15 dakika", value: 15 },
-  { label: "30 dakika", value: 30 },
-  { label: "45 dakika", value: 45 },
-  { label: "1 saat", value: 60 },
-  { label: "2 saat", value: 120 },
-  { label: "Kapalı", value: null },
-];
 
 const formatTime = (seconds: number): string => {
   const hours = Math.floor(seconds / 3600);
@@ -46,8 +38,18 @@ const formatTime = (seconds: number): string => {
 };
 
 const TimerButton = ({ selectedTime, onTimeSelect, remainingTime }: TimerButtonProps) => {
+  const { t } = useI18n();
   const [isCustomDialogOpen, setIsCustomDialogOpen] = useState(false);
   const [customMinutes, setCustomMinutes] = useState<string>("");
+
+  const timerOptions = [
+    { label: t("timer.options.15min"), value: 15 },
+    { label: t("timer.options.30min"), value: 30 },
+    { label: t("timer.options.45min"), value: 45 },
+    { label: t("timer.options.1hour"), value: 60 },
+    { label: t("timer.options.2hours"), value: 120 },
+    { label: t("timer.off"), value: null },
+  ];
 
   const handleCustomTime = () => {
     const minutes = parseInt(customMinutes);
@@ -74,8 +76,8 @@ const TimerButton = ({ selectedTime, onTimeSelect, remainingTime }: TimerButtonP
               {remainingTime !== null
                 ? formatTime(remainingTime)
                 : selectedTime
-                ? `${selectedTime} dk`
-                : "Zamanlayıcı"}
+                ? `${selectedTime} ${t("timer.label").toLowerCase()}`
+                : t("timer.label")}
             </span>
             <ChevronDown className="w-3 h-3 text-muted-foreground" />
           </Button>
@@ -98,7 +100,7 @@ const TimerButton = ({ selectedTime, onTimeSelect, remainingTime }: TimerButtonP
             onClick={() => setIsCustomDialogOpen(true)}
             className="cursor-pointer hover:bg-secondary/50 focus:bg-secondary/50"
           >
-            Özel Zaman...
+            {t("timer.custom")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -106,15 +108,15 @@ const TimerButton = ({ selectedTime, onTimeSelect, remainingTime }: TimerButtonP
       <Dialog open={isCustomDialogOpen} onOpenChange={setIsCustomDialogOpen}>
         <DialogContent className="glass-card border-border/50">
           <DialogHeader>
-            <DialogTitle>Özel Zamanlayıcı</DialogTitle>
+            <DialogTitle>{t("timer.customTitle")}</DialogTitle>
             <DialogDescription>
-              Dakika cinsinden süre girin (1-1440 dakika)
+              {t("timer.customDescription")}
             </DialogDescription>
           </DialogHeader>
           <div className="py-4">
             <Input
               type="number"
-              placeholder="Örn: 90"
+              placeholder={t("timer.customPlaceholder")}
               value={customMinutes}
               onChange={(e) => setCustomMinutes(e.target.value)}
               min="1"
@@ -124,8 +126,8 @@ const TimerButton = ({ selectedTime, onTimeSelect, remainingTime }: TimerButtonP
             {customMinutes && (
               <p className="text-xs text-muted-foreground mt-2">
                 {parseInt(customMinutes) > 0
-                  ? `${formatTime(parseInt(customMinutes) * 60)} süre`
-                  : "Geçersiz süre"}
+                  ? `${formatTime(parseInt(customMinutes) * 60)} ${t("timer.customDuration")}`
+                  : t("timer.invalidDuration")}
               </p>
             )}
           </div>
@@ -137,13 +139,13 @@ const TimerButton = ({ selectedTime, onTimeSelect, remainingTime }: TimerButtonP
                 setCustomMinutes("");
               }}
             >
-              İptal
+              {t("common.cancel")}
             </Button>
             <Button
               onClick={handleCustomTime}
               disabled={!customMinutes || parseInt(customMinutes) <= 0 || parseInt(customMinutes) > 1440}
             >
-              Ayarla
+              {t("common.set")}
             </Button>
           </DialogFooter>
         </DialogContent>

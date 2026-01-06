@@ -1,0 +1,84 @@
+{
+  "app": {
+    "title": "Sleep Sounds",
+    "subtitle": "Mescola suoni ambientali per un sonno tranquillo",
+    "by": "di",
+    "author": "melihkochan.com"
+  },
+  "sounds": {
+    "rain": "Pioggia",
+    "fire": "Caminetto",
+    "birds": "Uccelli",
+    "wind": "Vento",
+    "waves": "Onde",
+    "night": "Notte",
+    "cafe": "Caffè",
+    "thunder": "Tuono",
+    "forest": "Foresta",
+    "train": "Treno"
+  },
+  "common": {
+    "elapsedTime": "Tempo trascorso",
+    "activeSounds": "In riproduzione",
+    "selectSounds": "Clicca sulle carte a sinistra per selezionare i suoni",
+    "removeSound": "Rimuovi suono",
+    "masterVolume": "Volume principale",
+    "active": "Attivo:",
+    "sounds": "suoni",
+    "sound": "suono",
+    "playing": "In riproduzione",
+    "paused": "In pausa",
+    "start": "Avvia",
+    "stop": "Ferma",
+    "stopAll": "Ferma tutto",
+    "startAll": "Avvia tutto",
+    "enterSleepMode": "Entra in modalità sonno",
+    "cancel": "Annulla",
+    "set": "Imposta"
+  },
+  "toasts": {
+    "timerEnded": {
+      "title": "Timer terminato",
+      "description": "Tutti i suoni fermati. Sogni d'oro! 🌙"
+    },
+    "selectSound": {
+      "title": "Seleziona suono",
+      "description": "Seleziona almeno un suono da riprodurre."
+    },
+    "selectSoundForSleepMode": {
+      "title": "Seleziona suono",
+      "description": "Seleziona almeno un suono per entrare in modalità sonno."
+    },
+    "allSoundsStopped": {
+      "title": "Tutti i suoni fermati",
+      "description": "Tutti i suoni sono stati fermati."
+    },
+    "allSoundsStarted": {
+      "title": "Suoni avviati",
+      "description": "Tutti i suoni sono ora in riproduzione."
+    }
+  },
+  "sleepMode": {
+    "title": "Rilassati e dormi",
+    "subtitle": "I suoni stanno suonando, chiudi gli occhi e lasciati cullare dal sonno... 🌙",
+    "remainingTime": "Tempo rimanente"
+  },
+  "timer": {
+    "label": "Timer",
+    "off": "Spento",
+    "custom": "Tempo personalizzato...",
+    "customTitle": "Timer personalizzato",
+    "customDescription": "Inserisci la durata in minuti (1-1440 minuti)",
+    "customPlaceholder": "es: 90",
+    "customDuration": "durata",
+    "invalidDuration": "Durata non valida",
+    "options": {
+      "15min": "15 minuti",
+      "30min": "30 minuti",
+      "45min": "45 minuti",
+      "1hour": "1 ora",
+      "2hours": "2 ore"
+    }
+  }
+}
+

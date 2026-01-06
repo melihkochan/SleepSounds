@@ -2,6 +2,7 @@ import { Slider } from "@/components/ui/slider";
 import { Volume2, X } from "lucide-react";
 import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/contexts/I18nContext";
 
 interface Sound {
   id: string;
@@ -17,6 +18,7 @@ interface ActiveSoundsMixerProps {
 }
 
 const ActiveSoundsMixer = ({ activeSounds, onVolumeChange, onRemove }: ActiveSoundsMixerProps) => {
+  const { t } = useI18n();
   if (activeSounds.length === 0) {
     return (
       <div className="glass-card p-6 opacity-0 animate-slide-up" style={{ animationFillMode: "forwards" }}>
@@ -25,7 +27,7 @@ const ActiveSoundsMixer = ({ activeSounds, onVolumeChange, onRemove }: ActiveSou
             <Volume2 className="w-8 h-8 text-muted-foreground/40" />
           </div>
           <p className="text-sm text-muted-foreground font-medium">
-            Ses seçmek için soldaki kartlara tıklayın
+            {t("common.selectSounds")}
           </p>
         </div>
       </div>
@@ -36,7 +38,7 @@ const ActiveSoundsMixer = ({ activeSounds, onVolumeChange, onRemove }: ActiveSou
     <div className="glass-card p-3 opacity-0 animate-slide-up" style={{ animationFillMode: "forwards" }}>
       <div className="flex items-center justify-center gap-2 mb-2">
         <Volume2 className="w-4 h-4 text-primary" />
-        <h3 className="text-xs font-semibold text-foreground">Şu anda çalan sesler</h3>
+        <h3 className="text-xs font-semibold text-foreground">{t("common.activeSounds")}</h3>
         <span className="ml-auto text-xs text-muted-foreground bg-primary/10 px-2 py-0.5 rounded-full">
           {activeSounds.length}
         </span>
@@ -77,7 +79,7 @@ const ActiveSoundsMixer = ({ activeSounds, onVolumeChange, onRemove }: ActiveSou
               <button
                 onClick={() => onRemove(sound.id)}
                 className="p-1 rounded-lg hover:bg-destructive/20 active:scale-95 transition-all flex-shrink-0"
-                title="Sesi Kaldır"
+                title={t("common.removeSound")}
               >
                 <X className="w-3.5 h-3.5 text-muted-foreground hover:text-destructive transition-colors" />
               </button>
