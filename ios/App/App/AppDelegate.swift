@@ -39,11 +39,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return ApplicationDelegateProxy.shared.application(app, open: url, options: options)
     }
 
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([any UIUserActivityRestoring]?) -> Void) -> Bool {
         // Called when the app was launched with an activity, including Universal Links.
-        // Feel free to add additional processing here, but if you want the App API to support
-        // tracking app url opens, make sure to keep this call
-        return ApplicationDelegateProxy.shared.application(application, continue: userActivity, restorationHandler: restorationHandler)
+        // Capacitor 8 - continue method geçici olarak devre dışı (API değişti)
+        // Universal Links için URL varsa onu kullan
+        if let url = userActivity.webpageURL {
+            return ApplicationDelegateProxy.shared.application(application, open: url, options: [:])
+        }
+        // restorationHandler'ı çağır (boş array)
+        restorationHandler([])
+        return true
     }
 
 }
