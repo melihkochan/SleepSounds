@@ -4,13 +4,23 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Safe area for mobile devices */
+/* Safe area for mobile devices - iOS notch support */
 @supports (padding: max(0px)) {
   .safe-area-inset-top {
-    padding-top: max(1rem, env(safe-area-inset-top));
+    padding-top: max(3rem, calc(env(safe-area-inset-top, 0px) + 2rem));
   }
   .safe-area-inset-bottom {
-    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+    padding-bottom: max(0.5rem, calc(env(safe-area-inset-bottom, 0px) + 0.5rem));
+  }
+}
+
+/* Fallback for browsers that don't support env() */
+@supports not (padding: max(0px)) {
+  .safe-area-inset-top {
+    padding-top: 3rem;
+  }
+  .safe-area-inset-bottom {
+    padding-bottom: 0.5rem;
   }
 }
 

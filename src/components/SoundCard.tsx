@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { LucideIcon } from "lucide-react";
+import { LucideIcon, Check } from "lucide-react";
 import { useI18n } from "@/contexts/I18nContext";
 
 interface SoundCardProps {
@@ -36,9 +36,10 @@ const SoundCard = ({
       className={cn(
         "glass-card cursor-pointer transition-all duration-300 ease-out opacity-0 animate-slide-up",
         "hover:scale-[1.03] hover:shadow-xl hover:shadow-primary/10",
+        "active:scale-95",
         isActive && "sound-card-active ring-2",
         isClicked && "animate-bounce-click",
-        "p-3 sm:p-4 lg:p-5"
+        "p-2.5 sm:p-3 md:p-4 lg:p-5"
       )}
       style={{ 
         animationDelay: `${delay}ms`,
@@ -50,19 +51,19 @@ const SoundCard = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="flex flex-col items-center gap-2 sm:gap-3">
+      <div className="flex flex-col items-center gap-1.5 sm:gap-2 md:gap-3">
         <div
           className={cn(
-            "rounded-3xl flex items-center justify-center transition-all duration-300 ease-out relative overflow-hidden",
-            isActive ? "scale-105" : "scale-100",
-            "w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20"
+            "rounded-2xl sm:rounded-3xl flex items-center justify-center transition-all duration-300 ease-out relative overflow-hidden",
+            isActive ? "scale-110" : "scale-100",
+            "w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-20 lg:h-20"
           )}
           style={{
             backgroundColor: isActive 
-              ? `${color}15` 
+              ? `${color}20` 
               : "hsl(var(--secondary)/0.5)",
             boxShadow: isActive 
-              ? `0 8px 32px ${color}30, 0 0 0 1px ${color}20` 
+              ? `0 8px 32px ${color}40, 0 0 0 2px ${color}30, inset 0 0 20px ${color}15` 
               : "0 4px 16px hsl(var(--background)/0.3)",
             transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
           }}
@@ -70,23 +71,36 @@ const SoundCard = ({
           {/* Gradient overlay on active */}
           {isActive && (
             <div 
-              className="absolute inset-0 opacity-20"
+              className="absolute inset-0 opacity-30"
               style={{
                 background: `radial-gradient(circle at center, ${color} 0%, transparent 70%)`
               }}
             />
           )}
           
+          {/* Active indicator badge */}
+          {isActive && (
+            <div 
+              className="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center z-20 animate-icon-pulse"
+              style={{
+                backgroundColor: color,
+                boxShadow: `0 0 12px ${color}80`
+              }}
+            >
+              <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" strokeWidth={3} />
+            </div>
+          )}
+          
           <Icon
             className={cn(
               "transition-all duration-300 relative z-10",
-              isActive && "animate-icon-pulse",
-              !isActive && isHovered && "scale-110",
-              "w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10"
+              isActive && "scale-110",
+              !isActive && isHovered && "scale-105",
+              "w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-10 lg:h-10"
             )}
             style={{ 
               color: isActive ? color : "hsl(var(--muted-foreground))",
-              filter: isActive ? `drop-shadow(0 0 8px ${color}60)` : "none",
+              filter: isActive ? `drop-shadow(0 0 12px ${color}70)` : "none",
               transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
             }}
           />
@@ -98,7 +112,7 @@ const SoundCard = ({
             isActive 
               ? "text-foreground" 
               : "text-muted-foreground",
-            "text-xs sm:text-sm"
+            "text-[11px] sm:text-xs md:text-sm"
           )}
         >
           {name}

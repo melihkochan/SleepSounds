@@ -283,16 +283,16 @@ const Index = () => {
         />
       </div>
 
-      <div className="relative z-10 px-4 pt-8 sm:pt-10 pb-64 sm:pb-20 max-w-6xl mx-auto safe-area-inset-top">
+      <div className="relative z-10 px-3 sm:px-4 pb-64 sm:pb-20 max-w-6xl mx-auto safe-area-inset-top" style={{ paddingTop: 'max(3rem, calc(env(safe-area-inset-top, 0px) + 2rem))' }}>
         {/* Header */}
-        <header className="text-center mb-6 opacity-0 animate-slide-up" style={{ animationFillMode: "forwards" }}>
-          <div className="flex items-center justify-center gap-2 sm:gap-3 mb-3">
-            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+        <header className="text-center mb-4 sm:mb-6 opacity-0 animate-slide-up" style={{ animationFillMode: "forwards" }}>
+          <div className="flex items-center justify-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               {t("app.title")}
             </h1>
             <LanguageSelector />
           </div>
-          <p className="text-muted-foreground text-xs sm:text-sm mb-3 px-2">
+          <p className="text-muted-foreground text-[11px] sm:text-xs md:text-sm mb-2 sm:mb-3 px-2">
             {t("app.subtitle")}
           </p>
           <a 
@@ -330,10 +330,10 @@ const Index = () => {
           />
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
+        <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 lg:gap-8">
           {/* Main Content - Sound Grid */}
           <div className="flex-1">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-3 lg:gap-4 max-w-4xl mx-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3 lg:gap-4 max-w-4xl mx-auto">
               {sounds.map((sound: SoundData, index: number) => (
                 <SoundCard
                   key={sound.id}
