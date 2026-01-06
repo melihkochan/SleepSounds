@@ -84,7 +84,7 @@ const ActiveSoundsMixer = ({ activeSounds, onVolumeChange, onRemove }: ActiveSou
                   value={[volume]}
                   max={100}
                   step={1}
-                  onValueChange={(values) => onVolumeChange(sound.id, values[0])}
+                  onValueChange={(values: number[]) => onVolumeChange(sound.id, values[0])}
                   className="w-full"
                 />
               </div>
