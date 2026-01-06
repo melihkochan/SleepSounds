@@ -283,23 +283,23 @@ const Index = () => {
         />
       </div>
 
-      <div className="relative z-10 px-4 py-4 sm:py-6 pb-64 sm:pb-20 max-w-6xl mx-auto">
+      <div className="relative z-10 px-4 pt-8 sm:pt-10 pb-64 sm:pb-20 max-w-6xl mx-auto safe-area-inset-top">
         {/* Header */}
         <header className="text-center mb-6 opacity-0 animate-slide-up" style={{ animationFillMode: "forwards" }}>
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+          <div className="flex items-center justify-center gap-2 sm:gap-3 mb-3">
+            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               {t("app.title")}
             </h1>
             <LanguageSelector />
           </div>
-          <p className="text-muted-foreground text-sm mb-3">
+          <p className="text-muted-foreground text-xs sm:text-sm mb-3 px-2">
             {t("app.subtitle")}
           </p>
           <a 
             href="https://melihkochan.com" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="text-xs text-muted-foreground/60 hover:text-muted-foreground transition-colors inline-flex items-center gap-1"
+            className="text-[10px] sm:text-xs text-muted-foreground/60 hover:text-muted-foreground transition-colors inline-flex items-center gap-1"
           >
             <span>{t("app.by")}</span>
             <span className="font-medium">{t("app.author")}</span>
@@ -333,7 +333,7 @@ const Index = () => {
         <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
           {/* Main Content - Sound Grid */}
           <div className="flex-1">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3 lg:gap-4 max-w-4xl mx-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-3 lg:gap-4 max-w-4xl mx-auto">
               {sounds.map((sound: SoundData, index: number) => (
                 <SoundCard
                   key={sound.id}

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "436122940606",
+    "project_id": "sleep-sounds-6f9be",
+    "storage_bucket": "sleep-sounds-6f9be.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436122940606:android:23f74841485d783dce1aef",
+        "android_client_info": {
+          "package_name": "com.melihkochan.sleepsounds"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBusjKgyWFXr4FJg2nDNnfLxBV_8I-BvjQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -20,6 +20,23 @@ export const initAnalytics = () => {
   if (typeof window === "undefined") return;
 
   try {
+    // Platform kontrolü - Android'de native plugin kullan
+    let isNative = false;
+    try {
+      const { Capacitor } = require('@capacitor/core');
+      isNative = Capacitor.getPlatform() === 'android' || Capacitor.getPlatform() === 'ios';
+    } catch {
+      // Capacitor yoksa web platform
+    }
+    
+    if (isNative) {
+      // Native platform - Capacitor Firebase Analytics plugin kullan
+      // google-services.json dosyası yeterli, native tarafı otomatik başlatır
+      console.log("📱 Native platform - Firebase initialized by Capacitor plugin");
+      return;
+    }
+
+    // Web platform - Firebase SDK kullan
     // Config kontrolü
     if (!import.meta.env.VITE_FIREBASE_API_KEY || import.meta.env.VITE_FIREBASE_API_KEY === "YOUR_API_KEY") {
       console.warn("⚠️ Firebase config bulunamadı! .env dosyasını oluşturup Firebase config değerlerini ekleyin.");
@@ -40,7 +57,8 @@ export const initAnalytics = () => {
       console.log("✅ Firebase Analytics initialized");
     }
   } catch (error) {
-    console.error("❌ Firebase Analytics initialization error:", error);
+    // Hata olsa bile uygulama çalışmaya devam etsin
+    console.warn("⚠️ Firebase Analytics initialization warning:", error);
   }
 };
 

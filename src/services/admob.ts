@@ -8,6 +8,15 @@ export const initAdMob = async () => {
   if (typeof window === "undefined") return;
 
   try {
+    // Platform kontrolü
+    const { Capacitor } = require('@capacitor/core');
+    
+    // Sadece native platformlarda AdMob çalışır
+    if (Capacitor.getPlatform() === 'web') {
+      console.log("🌐 Web platform - AdMob skipped");
+      return;
+    }
+
     // Capacitor plugin'i kontrol et
     const { AdMob } = await import("@capacitor-community/admob");
     
@@ -21,9 +30,10 @@ export const initAdMob = async () => {
     });
 
     isAdMobInitialized = true;
-    console.log("AdMob initialized");
+    console.log("✅ AdMob initialized");
   } catch (error) {
-    console.warn("AdMob not available (web environment):", error);
+    // Hata olsa bile uygulama çalışmaya devam etsin
+    console.warn("⚠️ AdMob initialization warning:", error);
     isAdMobInitialized = false;
   }
 };
