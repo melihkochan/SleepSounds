@@ -25,7 +25,7 @@ const ActiveSoundsMixer = ({ activeSounds, onVolumeChange, onRemove }: ActiveSou
             <Volume2 className="w-8 h-8 text-muted-foreground/40" />
           </div>
           <p className="text-sm text-muted-foreground font-medium">
-            Ses seçmek için yukarıdaki kartlara tıklayın
+            Ses seçmek için soldaki kartlara tıklayın
           </p>
         </div>
       </div>
