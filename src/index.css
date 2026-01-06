@@ -4,6 +4,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Safe area for mobile devices */
+@supports (padding: max(0px)) {
+  .safe-area-inset-bottom {
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+  }
+}
+
 @layer base {
   :root {
     --background: 232 40% 8%;

@@ -183,7 +183,7 @@ const SleepMode = ({
           </div>
 
           {/* Active Sounds with Volume Controls */}
-          <div className="glass-card p-3 w-full">
+          <div className="glass-card p-3 w-full mb-20 sm:mb-24">
             <div className="flex items-center justify-center gap-2 mb-2">
               <Volume2 className="w-4 h-4 text-primary" />
               <h3 className="text-xs font-semibold text-foreground">Şu anda çalan sesler</h3>
@@ -191,7 +191,7 @@ const SleepMode = ({
                 {activeSounds.length}
               </span>
             </div>
-            <div className="space-y-1.5">
+            <div className="space-y-1.5 max-h-[50vh] overflow-y-auto pr-2 custom-scrollbar">
               {activeSounds.map(({ sound, volume }) => {
                 const Icon = sound.icon;
                 return (
@@ -254,7 +254,7 @@ const SleepMode = ({
         </div>
 
         {/* Bottom Controls */}
-        <div className="absolute bottom-4 left-0 right-0 flex justify-center px-4">
+        <div className="fixed bottom-4 left-0 right-0 flex justify-center px-4 z-30">
           <div className="glass-card px-4 py-3 flex flex-col items-center gap-2">
             <PlayButton
               isPlaying={isPlaying}

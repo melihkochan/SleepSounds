@@ -33,10 +33,11 @@ const SoundCard = ({
   return (
     <div
       className={cn(
-        "glass-card p-5 cursor-pointer transition-all duration-300 ease-out opacity-0 animate-slide-up",
+        "glass-card cursor-pointer transition-all duration-300 ease-out opacity-0 animate-slide-up",
         "hover:scale-[1.03] hover:shadow-xl hover:shadow-primary/10",
         isActive && "sound-card-active ring-2",
-        isClicked && "animate-bounce-click"
+        isClicked && "animate-bounce-click",
+        "p-3 sm:p-4 lg:p-5"
       )}
       style={{ 
         animationDelay: `${delay}ms`,
@@ -48,11 +49,12 @@ const SoundCard = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="flex flex-col items-center gap-3">
+      <div className="flex flex-col items-center gap-2 sm:gap-3">
         <div
           className={cn(
-            "w-20 h-20 rounded-3xl flex items-center justify-center transition-all duration-300 ease-out relative overflow-hidden",
-            isActive ? "scale-105" : "scale-100"
+            "rounded-3xl flex items-center justify-center transition-all duration-300 ease-out relative overflow-hidden",
+            isActive ? "scale-105" : "scale-100",
+            "w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20"
           )}
           style={{
             backgroundColor: isActive 
@@ -76,9 +78,10 @@ const SoundCard = ({
           
           <Icon
             className={cn(
-              "w-10 h-10 transition-all duration-300 relative z-10",
+              "transition-all duration-300 relative z-10",
               isActive && "animate-icon-pulse",
-              !isActive && isHovered && "scale-110"
+              !isActive && isHovered && "scale-110",
+              "w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10"
             )}
             style={{ 
               color: isActive ? color : "hsl(var(--muted-foreground))",
@@ -90,10 +93,11 @@ const SoundCard = ({
 
         <span
           className={cn(
-            "text-sm font-semibold transition-all duration-300 text-center",
+            "font-semibold transition-all duration-300 text-center",
             isActive 
               ? "text-foreground" 
-              : "text-muted-foreground"
+              : "text-muted-foreground",
+            "text-xs sm:text-sm"
           )}
         >
           {name}
