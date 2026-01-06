@@ -8,6 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useI18n, type Language } from "@/contexts/I18nContext";
 import { cn } from "@/lib/utils";
+import { trackLanguageChange } from "@/services/analytics";
 
 const languages: { code: Language; name: string; flag: string }[] = [
   { code: "tr", name: "Türkçe", flag: "🇹🇷" },
@@ -49,7 +50,10 @@ const LanguageSelector = () => {
         {languages.map((lang) => (
           <DropdownMenuItem
             key={lang.code}
-            onClick={() => setLanguage(lang.code)}
+            onClick={() => {
+              setLanguage(lang.code);
+              trackLanguageChange(lang.code); // Analytics tracking
+            }}
             className={cn(
               "cursor-pointer hover:bg-secondary/50 focus:bg-secondary/50 gap-2",
               language === lang.code && "text-primary bg-primary/10"

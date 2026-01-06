@@ -13,6 +13,7 @@ import useAudioManager from "@/hooks/useAudioManager";
 import { getSounds, type SoundData } from "@/data/sounds";
 import { useToast } from "@/hooks/use-toast";
 import { useI18n } from "@/contexts/I18nContext";
+import { trackSoundPlay, trackSoundStop, trackTimerSet, trackSleepModeEnter, trackLanguageChange, trackVolumeChange } from "@/services/analytics";
 
 interface ActiveSound {
   id: string;
@@ -87,6 +88,7 @@ const Index = () => {
       if (exists) {
         // Remove sound - stop it completely
         stopSound(id);
+        trackSoundStop(id); // Analytics tracking
         const newSounds = prev.filter((s) => s.id !== id);
         // If no sounds left, reset elapsed time and close sleep mode
         if (newSounds.length === 0) {
@@ -102,6 +104,7 @@ const Index = () => {
         if (sound) {
           playSound(id, sound.audioUrl, 50);
           setIsPlaying(true);
+          trackSoundPlay(id); // Analytics tracking
           // Start elapsed time if this is the first sound
           if (prev.length === 0) {
             setPlayStartTime(Date.now());
@@ -118,6 +121,7 @@ const Index = () => {
       prev.map((s) => (s.id === id ? { ...s, volume } : s))
     );
     setVolume(id, volume);
+    trackVolumeChange(id, volume); // Analytics tracking
   }, [setVolume]);
 
   const handlePlayToggle = useCallback(() => {
@@ -153,6 +157,8 @@ const Index = () => {
     setSelectedTimer(minutes);
     if (minutes === null) {
       setRemainingTime(null);
+    } else {
+      trackTimerSet(minutes); // Analytics tracking
     }
   }, []);
 
@@ -175,6 +181,7 @@ const Index = () => {
       }
     }
     setShowSleepMode(true);
+    trackSleepModeEnter(); // Analytics tracking
   }, [activeSounds.length, isPlaying, resumeAll, playStartTime, toast]);
 
   const handleRemoveSound = useCallback((id: string) => {
