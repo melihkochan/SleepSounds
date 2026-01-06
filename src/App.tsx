@@ -17,6 +17,17 @@ const AppContent = () => {
   useEffect(() => {
     // Analytics ve AdMob'u başlat (async)
     const initialize = async () => {
+      // iOS kontrolü - iOS'ta Firebase ve AdMob kullanma
+      try {
+        const { Capacitor } = await import('@capacitor/core');
+        if (Capacitor.getPlatform() === 'ios') {
+          console.log("📱 iOS platform - Firebase ve AdMob devre dışı");
+          return; // iOS'ta hiçbir şey başlatma
+        }
+      } catch {
+        // Capacitor yoksa devam et (web platform)
+      }
+      
       await initAnalytics();
       initAdMob();
       

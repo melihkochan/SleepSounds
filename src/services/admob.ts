@@ -17,6 +17,12 @@ export const initAdMob = async () => {
       return;
     }
 
+    // iOS'ta AdMob kullanma - tamamen devre dışı
+    if (Capacitor.getPlatform() === 'ios') {
+      console.log("📱 iOS platform - AdMob devre dışı");
+      return;
+    }
+
     // Capacitor plugin'i kontrol et
     const { AdMob } = await import("@capacitor-community/admob");
     

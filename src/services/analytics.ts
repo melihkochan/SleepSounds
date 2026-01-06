@@ -22,25 +22,24 @@ export const initAnalytics = async () => {
   if (typeof window === "undefined") return;
 
   try {
-    // Platform kontrolü - Android/iOS'da native plugin kullan
+    // Platform kontrolü - iOS'ta Firebase kullanma
     try {
       const { Capacitor } = await import('@capacitor/core');
       const platform = Capacitor.getPlatform();
-      isNativePlatform = platform === 'android' || platform === 'ios';
+      
+      // iOS'ta Firebase kullanma - tamamen devre dışı
+      if (platform === 'ios') {
+        console.log("📱 iOS platform - Firebase Analytics devre dışı");
+        isNativePlatform = true;
+        return; // iOS'ta hiçbir şey yapma
+      }
+      
+      isNativePlatform = platform === 'android';
       
       if (isNativePlatform) {
-        // Native platform - Capacitor Firebase Analytics plugin kullan
-        try {
-          const { FirebaseAnalytics } = await import('@capacitor-community/firebase-analytics');
-          await FirebaseAnalytics.setEnabled({ enabled: true });
-          nativeAnalytics = FirebaseAnalytics;
-          console.log("✅ Firebase Analytics initialized (Native - Capacitor plugin)");
-          console.log("📱 Platform:", platform);
-          return;
-        } catch (error) {
-          console.warn("⚠️ Capacitor Firebase Analytics plugin bulunamadı:", error);
-          // Fallback to web SDK
-        }
+        // Android'de native plugin kullan (ileride)
+        console.log("📱 Android platform - Firebase Analytics (native plugin)");
+        // Şimdilik web SDK kullan
       }
     } catch {
       // Capacitor yoksa web platform
@@ -69,11 +68,7 @@ export const initAnalytics = async () => {
 
     // Analytics'i başlat
     if (typeof window !== "undefined" && !analytics) {
-      analytics = getAnalytics(app, { 
-        config: {
-          send_page_view: false // Manuel page view tracking
-        }
-      });
+      analytics = getAnalytics(app);
       console.log("✅ Firebase Analytics initialized (Web)");
       console.log("📊 Measurement ID:", import.meta.env.VITE_FIREBASE_MEASUREMENT_ID);
       console.log("🌐 Web App ID:", import.meta.env.VITE_FIREBASE_APP_ID);
@@ -88,19 +83,15 @@ export const initAnalytics = async () => {
 // Event loglama
 export const trackEvent = async (eventName: string, params?: Record<string, any>) => {
   try {
-    // Native platform - Capacitor plugin kullan
-    if (isNativePlatform && nativeAnalytics) {
-      try {
-        await nativeAnalytics.logEvent({
-          name: eventName,
-          parameters: params || {}
-        });
-        console.log(`📊 [Native] Event tracked: ${eventName}`, params || {});
-        return;
-      } catch (error) {
-        console.error("❌ [Native] Error tracking event:", error);
+    // iOS kontrolü - iOS'ta hiçbir şey yapma
+    try {
+      const { Capacitor } = await import('@capacitor/core');
+      if (Capacitor.getPlatform() === 'ios') {
+        // iOS'ta event tracking yapma
         return;
       }
+    } catch {
+      // Capacitor yoksa devam et
     }
 
     // Web platform - Firebase SDK kullan
@@ -134,18 +125,14 @@ export const trackEvent = async (eventName: string, params?: Record<string, any>
 // Kullanıcı özelliklerini ayarla
 export const setUserProperty = async (propertyName: string, value: string) => {
   try {
-    // Native platform
-    if (isNativePlatform && nativeAnalytics) {
-      try {
-        await nativeAnalytics.setUserProperty({
-          name: propertyName,
-          value: value
-        });
-        return;
-      } catch (error) {
-        console.error("❌ [Native] Error setting user property:", error);
+    // iOS kontrolü - iOS'ta hiçbir şey yapma
+    try {
+      const { Capacitor } = await import('@capacitor/core');
+      if (Capacitor.getPlatform() === 'ios') {
         return;
       }
+    } catch {
+      // Capacitor yoksa devam et
     }
 
     // Web platform
