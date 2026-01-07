@@ -91,19 +91,32 @@ const SoundCard = ({
             </div>
           )}
           
-          <Icon
-            className={cn(
-              "transition-all duration-300 relative z-10",
-              isActive && "scale-110",
-              !isActive && isHovered && "scale-105",
-              "w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-10 lg:h-10"
-            )}
-            style={{ 
-              color: isActive ? color : "hsl(var(--muted-foreground))",
-              filter: isActive ? `drop-shadow(0 0 12px ${color}70)` : "none",
-              transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
-            }}
-          />
+          {Icon ? (
+            <Icon
+              className={cn(
+                "transition-all duration-300 relative z-10",
+                isActive && "scale-110",
+                !isActive && isHovered && "scale-105",
+                "w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-10 lg:h-10",
+                "flex-shrink-0"
+              )}
+              style={{ 
+                color: isActive ? color : "hsl(var(--muted-foreground))",
+                filter: isActive ? `drop-shadow(0 0 12px ${color}70)` : "none",
+                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                display: "block",
+                opacity: 1,
+                visibility: "visible"
+              }}
+              strokeWidth={2}
+              aria-hidden="true"
+            />
+          ) : (
+            <div 
+              className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 rounded-full"
+              style={{ backgroundColor: isActive ? color : "hsl(var(--muted-foreground))" }}
+            />
+          )}
         </div>
 
         <span

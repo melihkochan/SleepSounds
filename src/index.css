@@ -126,6 +126,20 @@
     overflow-x: hidden;
   }
   
+  /* Ensure icons are visible */
+  svg {
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+  
+  /* Fix for icon rendering on mobile */
+  [class*="lucide"] {
+    display: inline-block;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  
   /* Prevent horizontal scroll on mobile */
   @media (max-width: 768px) {
     body, html {

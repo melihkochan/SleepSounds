@@ -381,7 +381,12 @@ const Index = () => {
                     className="relative w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 bg-gradient-to-br from-primary to-accent hover:scale-105 active:scale-95 shadow-[0_0_20px_hsl(var(--primary)/0.4)] group"
                     title={t("common.enterSleepMode")}
                   >
-                    <Moon className="w-6 h-6 text-primary-foreground group-hover:scale-110 transition-transform" />
+                    <Moon 
+                      className="w-6 h-6 text-primary-foreground group-hover:scale-110 transition-transform flex-shrink-0" 
+                      style={{ display: "block", opacity: 1, visibility: "visible" }}
+                      strokeWidth={2}
+                      aria-hidden="true"
+                    />
                   </button>
                   <button
                     onClick={handleStopAll}
@@ -394,9 +399,19 @@ const Index = () => {
                     title={isPlaying ? t("common.stopAll") : t("common.startAll")}
                   >
                     {isPlaying ? (
-                      <Square className="w-5 h-5 text-destructive group-hover:scale-110 transition-transform" fill="currentColor" />
+                      <Square 
+                        className="w-5 h-5 text-destructive group-hover:scale-110 transition-transform flex-shrink-0" 
+                        fill="currentColor"
+                        style={{ display: "block", opacity: 1, visibility: "visible" }}
+                        aria-hidden="true"
+                      />
                     ) : (
-                      <Play className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" fill="currentColor" />
+                      <Play 
+                        className="w-5 h-5 text-primary group-hover:scale-110 transition-transform flex-shrink-0" 
+                        fill="currentColor"
+                        style={{ display: "block", opacity: 1, visibility: "visible" }}
+                        aria-hidden="true"
+                      />
                     )}
                   </button>
                 </>
@@ -429,7 +444,12 @@ const Index = () => {
             {activeSounds.length > 0 && (
               <div className="flex items-center gap-2 sm:gap-3 px-1 sm:px-2">
                 <div className="flex items-center gap-1.5 sm:gap-2 min-w-[80px] sm:min-w-[100px]">
-                  <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
+                  <Volume2 
+                    className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary flex-shrink-0" 
+                    style={{ display: "block", opacity: 1, visibility: "visible" }}
+                    strokeWidth={2}
+                    aria-hidden="true"
+                  />
                   <span className="text-xs font-semibold text-foreground">{t("common.masterVolume")}</span>
                 </div>
                 <Slider

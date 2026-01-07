@@ -153,7 +153,12 @@ const SleepMode = ({
           {/* Moon Icon - Smaller */}
           <div className="flex justify-center mb-2">
             <div className="relative">
-              <Moon className="w-16 h-16 md:w-20 md:h-20 text-primary floating-animation" />
+              <Moon 
+                className="w-16 h-16 md:w-20 md:h-20 text-primary floating-animation flex-shrink-0" 
+                style={{ display: "block", opacity: 1, visibility: "visible" }}
+                strokeWidth={2}
+                aria-hidden="true"
+              />
               <div className="absolute inset-0 bg-primary/20 rounded-full blur-2xl" />
             </div>
           </div>
@@ -171,7 +176,12 @@ const SleepMode = ({
           {/* Active Sounds with Volume Controls */}
           <div className="glass-card p-3 w-full mb-16 sm:mb-20">
             <div className="flex items-center justify-center gap-2 mb-2">
-              <Volume2 className="w-4 h-4 text-primary" />
+              <Volume2 
+                className="w-4 h-4 text-primary flex-shrink-0" 
+                style={{ display: "block", opacity: 1, visibility: "visible" }}
+                strokeWidth={2}
+                aria-hidden="true"
+              />
               <h3 className="text-xs font-semibold text-foreground">{t("common.activeSounds")}</h3>
               <span className="ml-auto text-xs text-muted-foreground bg-primary/10 px-2 py-0.5 rounded-full">
                 {activeSounds.length}
@@ -193,7 +203,24 @@ const SleepMode = ({
                       className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
                       style={{ backgroundColor: `${sound.color}25` }}
                     >
-                      <Icon className="w-3.5 h-3.5" style={{ color: sound.color }} />
+                      {Icon ? (
+                        <Icon 
+                          className="w-3.5 h-3.5 flex-shrink-0" 
+                          style={{ 
+                            color: sound.color,
+                            display: "block",
+                            opacity: 1,
+                            visibility: "visible"
+                          }}
+                          strokeWidth={2}
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <div 
+                          className="w-3.5 h-3.5 rounded"
+                          style={{ backgroundColor: sound.color }}
+                        />
+                      )}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between mb-0.5">
@@ -215,7 +242,12 @@ const SleepMode = ({
                       className="p-1 rounded-lg hover:bg-destructive/20 active:scale-95 transition-all flex-shrink-0"
                       title={t("common.removeSound")}
                     >
-                      <X className="w-3.5 h-3.5 text-muted-foreground hover:text-destructive transition-colors" />
+                      <X 
+                        className="w-3.5 h-3.5 text-muted-foreground hover:text-destructive transition-colors flex-shrink-0" 
+                        style={{ display: "block", opacity: 1, visibility: "visible" }}
+                        strokeWidth={2}
+                        aria-hidden="true"
+                      />
                     </button>
                   </div>
                 );
