@@ -131,13 +131,40 @@
     display: inline-block;
     vertical-align: middle;
     flex-shrink: 0;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
   }
   
-  /* Fix for icon rendering on mobile */
-  [class*="lucide"] {
-    display: inline-block;
+  /* Fix for icon rendering on mobile - especially iOS Safari */
+  [class*="lucide"],
+  svg[class*="lucide"] {
+    display: inline-block !important;
     opacity: 1 !important;
     visibility: visible !important;
+    -webkit-transform: translateZ(0) !important;
+    transform: translateZ(0) !important;
+    will-change: transform;
+  }
+  
+  /* iOS Safari specific fixes */
+  @supports (-webkit-touch-callout: none) {
+    /* iOS Safari only */
+    svg {
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    [class*="lucide"],
+    svg[class*="lucide"] {
+      -webkit-transform: translate3d(0, 0, 0) !important;
+      transform: translate3d(0, 0, 0) !important;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
   }
   
   /* Prevent horizontal scroll on mobile */

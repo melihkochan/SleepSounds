@@ -8,7 +8,23 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
     <title>Sleep Sounds - Rahatlatıcı Uyku Sesleri</title>
+    
+    <!-- iOS Safari specific fixes -->
+    <style>
+      /* Force icon visibility on iOS Safari */
+      @supports (-webkit-touch-callout: none) {
+        svg, [class*="lucide"] {
+          display: inline-block !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+          -webkit-transform: translate3d(0, 0, 0) !important;
+          transform: translate3d(0, 0, 0) !important;
+        }
+      }
+    </style>
     
     <meta property="og:title" content="Sleep Sounds - Rahatlatıcı Uyku Sesleri" />
     <meta property="og:description" content="Huzurlu bir uyku için rahatlatıcı ortam seslerini keşfedin ve karıştırın." />
