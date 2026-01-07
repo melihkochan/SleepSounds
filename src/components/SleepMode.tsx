@@ -226,7 +226,7 @@ const SleepMode = ({
         </div>
 
         {/* Bottom Controls - Modern Compact Design */}
-        <div className="fixed bottom-3 left-0 right-0 flex justify-center px-4 z-30">
+        <div className="fixed bottom-3 left-0 right-0 flex justify-center px-4 z-30 safe-area-inset-bottom" style={{ paddingBottom: 'max(0.75rem, calc(env(safe-area-inset-bottom, 0px) + 0.75rem))', bottom: 'max(0.75rem, env(safe-area-inset-bottom, 0px))' }}>
           <div className="glass-card px-3 sm:px-4 py-2 sm:py-2.5 flex items-center justify-between gap-3 sm:gap-4 w-full max-w-lg">
             {/* Timer - Left Side */}
             {remainingTime !== null ? (

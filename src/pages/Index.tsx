@@ -283,7 +283,7 @@ const Index = () => {
         />
       </div>
 
-      <div className="relative z-10 px-3 sm:px-4 pb-64 sm:pb-20 max-w-6xl mx-auto safe-area-inset-top" style={{ paddingTop: 'max(3rem, calc(env(safe-area-inset-top, 0px) + 2rem))' }}>
+      <div className="relative z-10 px-3 sm:px-4 pb-80 sm:pb-20 max-w-6xl mx-auto safe-area-inset-top" style={{ paddingTop: 'max(3rem, calc(env(safe-area-inset-top, 0px) + 2rem))', paddingBottom: 'max(22rem, calc(env(safe-area-inset-bottom, 0px) + 22rem))' }}>
         {/* Header */}
         <header className="text-center mb-4 sm:mb-6 opacity-0 animate-slide-up" style={{ animationFillMode: "forwards" }}>
           <div className="flex items-center justify-center gap-2 sm:gap-3 mb-2 sm:mb-3">
@@ -364,8 +364,8 @@ const Index = () => {
 
       {/* Bottom Controls - Enhanced */}
       {!showSleepMode && (
-        <div className="fixed bottom-0 left-0 right-0 z-20 safe-area-inset-bottom">
-          <div className="glass-card mx-2 sm:mx-4 mb-2 sm:mb-4 p-2 sm:p-3">
+        <div className="fixed bottom-0 left-0 right-0 z-20 safe-area-inset-bottom" style={{ paddingBottom: 'max(1rem, calc(env(safe-area-inset-bottom, 0px) + 1rem))' }}>
+          <div className="glass-card mx-2 sm:mx-4 mb-2 sm:mb-4 p-2 sm:p-3" style={{ marginBottom: 'max(0.5rem, env(safe-area-inset-bottom, 0px))' }}>
             {/* Main Controls Row */}
             <div className="flex items-center justify-center gap-2 sm:gap-3 mb-2 sm:mb-3">
               <TimerButton
